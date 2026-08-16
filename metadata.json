@@ -1,0 +1,6 @@
+{
+  "name": "ScholarBridge - International Scholarship & Study Abroad Platform",
+  "description": "Comprehensive international scholarship, fellowship, and study abroad discovery portal with deadline tracking, verified opportunities, smart filtering, and application guides.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
