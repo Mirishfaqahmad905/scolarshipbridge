@@ -12,7 +12,7 @@ import {
   Subscriber, 
   FilterState 
 } from '../types';
-import { scholarshipApi, initializeLocalStorage } from '../services/api';
+import { scholarshipApi } from '../services/api';
 import { mockCountries } from '../data/mockCountries';
 import { mockUniversities } from '../data/mockUniversities';
 import { mockNewsArticles } from '../data/mockNews';
@@ -26,6 +26,7 @@ interface AppContextType {
   bookmarks: string[];
   recentlyViewed: string[];
   currentUser: User | null;
+  user: User | null;
   announcement: AnnouncementConfig;
   comments: UserComment[];
   subscribers: Subscriber[];
@@ -36,6 +37,7 @@ interface AppContextType {
   // Actions
   toggleBookmark: (scholarshipId: string) => void;
   isBookmarked: (scholarshipId: string) => boolean;
+  clearBookmarks: () => void;
   addRecentlyViewed: (scholarshipId: string) => void;
   addToast: (toast: Omit<ToastMessage, 'id'>) => void;
   removeToast: (id: string) => void;
@@ -115,8 +117,6 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   // Initialize data on mount
   useEffect(() => {
-    initializeLocalStorage();
-    
     // Load scholarships
     scholarshipApi.getAll().then(data => {
       setScholarships(data);
@@ -182,6 +182,16 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   };
 
   const isBookmarked = (scholarshipId: string) => bookmarks.includes(scholarshipId);
+
+  const clearBookmarks = () => {
+    setBookmarks([]);
+    localStorage.removeItem('scholarbridge_bookmarks_v1');
+    addToast({
+      type: 'info',
+      title: 'Bookmarks Cleared',
+      message: 'All saved scholarships have been removed.'
+    });
+  };
 
   const addRecentlyViewed = (scholarshipId: string) => {
     setRecentlyViewed(prev => {
@@ -382,6 +392,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         bookmarks,
         recentlyViewed,
         currentUser,
+        user: currentUser,
         announcement,
         comments,
         subscribers,
@@ -390,6 +401,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         activeFilters,
         toggleBookmark,
         isBookmarked,
+        clearBookmarks,
         addRecentlyViewed,
         addToast,
         removeToast,

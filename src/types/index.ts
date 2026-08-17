@@ -95,6 +95,7 @@ export interface Scholarship {
   status: ScholarshipStatus;
   views: number;
   bookmarksCount: number;
+  createdAt?: string;
   publishedAt: string;
   updatedAt: string;
   author: {
@@ -115,8 +116,9 @@ export interface CountryInfo {
   name: string;
   code: string;
   region: string;
-  flagEmoji: string;
-  flagUrl: string;
+  flag?: string;
+  flagEmoji?: string;
+  flagUrl?: string;
   image: string;
   bannerImage: string;
   currency: string;
@@ -129,6 +131,8 @@ export interface CountryInfo {
   visaGuidelines: string;
   topUniversities: string[];
   popularFields: string[];
+  activeScholarshipsCount?: number;
+  scholarshipCount?: number;
 }
 
 export interface UniversityInfo {

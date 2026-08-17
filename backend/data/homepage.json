@@ -1,0 +1,119 @@
+{
+  "hero": {
+    "enabled": true,
+    "title": "Find Your Dream International Scholarship",
+    "subtitle": "Global Education Without Financial Boundaries",
+    "description": "Discover 500+ verified fully funded scholarships, government awards, tuition waivers, and fellowship programs worldwide for the 2026/2027 intake.",
+    "primaryButtonText": "Explore All Scholarships",
+    "primaryButtonUrl": "/scholarships",
+    "secondaryButtonText": "Browse by Country",
+    "secondaryButtonUrl": "/countries",
+    "backgroundImage": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=80",
+    "stats": [
+      { "label": "Verified Scholarships", "value": "500+" },
+      { "label": "Host Countries", "value": "45+" },
+      { "label": "Fully Funded Awards", "value": "85%" },
+      { "label": "Global Scholars Helped", "value": "50k+" }
+    ]
+  },
+  "sections": [
+    {
+      "id": "sec-hero",
+      "key": "hero",
+      "name": "Hero Banner Section",
+      "enabled": true,
+      "position": 1,
+      "title": "Find Your Dream International Scholarship",
+      "subtitle": "Global Education Without Financial Boundaries",
+      "buttonText": "Explore Scholarships",
+      "buttonUrl": "/scholarships"
+    },
+    {
+      "id": "sec-featured-scholarships",
+      "key": "featured_scholarships",
+      "name": "Featured Scholarships Showcase",
+      "enabled": true,
+      "position": 2,
+      "title": "Featured Scholarship Opportunities",
+      "subtitle": "Hand-picked prestigious awards and urgent deadlines",
+      "description": "Verified high-value scholarships with full tuition coverage and monthly living stipends.",
+      "limit": 6
+    },
+    {
+      "id": "sec-categories",
+      "key": "categories",
+      "name": "Popular Categories Grid",
+      "enabled": true,
+      "position": 3,
+      "title": "Explore by Category",
+      "subtitle": "Target your academic goals by funding type and degree",
+      "limit": 8
+    },
+    {
+      "id": "sec-countries",
+      "key": "countries",
+      "name": "Top Study Destinations",
+      "enabled": true,
+      "position": 4,
+      "title": "Explore Top Destinations",
+      "subtitle": "Discover study opportunities, visa guidelines, and living costs in leading academic hubs",
+      "limit": 6
+    },
+    {
+      "id": "sec-universities",
+      "key": "universities",
+      "name": "Leading Partner Universities",
+      "enabled": true,
+      "position": 5,
+      "title": "World-Class Universities",
+      "subtitle": "Direct university-sponsored grants and research assistantships",
+      "limit": 6
+    },
+    {
+      "id": "sec-latest-posts",
+      "key": "latest_posts",
+      "name": "Application Guides & News",
+      "enabled": true,
+      "position": 6,
+      "title": "Latest Application Guides & News",
+      "subtitle": "Expert tips, motivational letters, IELTS waivers, and visa interview strategies",
+      "limit": 4
+    },
+    {
+      "id": "sec-cta",
+      "key": "cta",
+      "name": "Call To Action Banner",
+      "enabled": true,
+      "position": 7,
+      "title": "Need Help Finding The Right Grant?",
+      "subtitle": "Join thousands of international scholars receiving free weekly deadline alerts.",
+      "buttonText": "Browse All Opportunities",
+      "buttonUrl": "/opportunities"
+    },
+    {
+      "id": "sec-newsletter",
+      "key": "newsletter",
+      "name": "Newsletter Subscription Box",
+      "enabled": true,
+      "position": 8,
+      "title": "Stay Ahead of Deadlines",
+      "subtitle": "Get our curated weekly newsletter with new scholarships delivered straight to your inbox.",
+      "buttonText": "Subscribe Free"
+    }
+  ],
+  "cta": {
+    "enabled": true,
+    "title": "Need Help Finding The Right Scholarship?",
+    "description": "Explore our curated database of fully funded opportunities and step-by-step application walkthroughs.",
+    "buttonText": "Explore All Opportunities",
+    "buttonUrl": "/opportunities"
+  },
+  "newsletter": {
+    "enabled": true,
+    "title": "Stay Ahead of Scholarship Deadlines",
+    "subtitle": "Receive weekly verified intake updates, IELTS waiver notices, and ambassador guidance.",
+    "placeholder": "Enter your email address...",
+    "buttonText": "Subscribe Free"
+  },
+  "updatedAt": "2026-08-17T10:41:50.108Z"
+}
