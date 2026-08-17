@@ -252,3 +252,10 @@ export interface Subscriber {
   preferences?: string[];
   active: boolean;
 }
+
+export interface NewsletterSubscriptionResponse {
+  success: boolean;
+  alreadySubscribed?: boolean;
+  email?: string;
+  message: string;
+}

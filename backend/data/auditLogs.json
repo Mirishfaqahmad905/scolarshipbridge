@@ -1,0 +1,88 @@
+[
+  {
+    "id": "log-1786967685585-5xbd",
+    "adminId": "admin-super-01",
+    "username": "mirishfaqahmad",
+    "action": "login",
+    "resource": "auth",
+    "timestamp": "2026-08-17T11:54:45.585Z",
+    "ipAddress": "127.0.0.1",
+    "userAgent": "internal"
+  },
+  {
+    "id": "log-1786967165356-cjkv",
+    "adminId": "admin-super-01",
+    "username": "mirishfaqahmad",
+    "action": "login",
+    "resource": "auth",
+    "timestamp": "2026-08-17T11:46:05.356Z",
+    "ipAddress": "39.32.223.211, 169.254.169.126",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+  },
+  {
+    "id": "log-1786966863020-i61j",
+    "adminId": "admin-super-01",
+    "username": "mirishfaqahmad",
+    "action": "create",
+    "resource": "country",
+    "resourceId": "country-1786966758368",
+    "timestamp": "2026-08-17T11:41:03.020Z",
+    "ipAddress": "39.32.223.211, 169.254.169.126",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+  },
+  {
+    "id": "log-1786966862328-mhkt",
+    "adminId": "admin-super-01",
+    "username": "mirishfaqahmad",
+    "action": "imageUpload",
+    "resource": "media",
+    "resourceId": "media-1786966862325-iury",
+    "details": {
+      "fileName": "WhatsApp Image 2026-08-15 at 16.31.31.jpeg",
+      "size": 65099
+    },
+    "timestamp": "2026-08-17T11:41:02.328Z",
+    "ipAddress": "39.32.223.211, 169.254.169.126",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+  },
+  {
+    "id": "log-1786965924221-y6as",
+    "adminId": "admin-super-01",
+    "username": "mirishfaqahmad",
+    "action": "login",
+    "resource": "auth",
+    "timestamp": "2026-08-17T11:25:24.221Z",
+    "ipAddress": "39.32.223.211, 169.254.169.126",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+  },
+  {
+    "id": "log-1786965918317-vr4p",
+    "adminId": "admin-super-01",
+    "username": "mirishfaqahmad",
+    "action": "login",
+    "resource": "auth",
+    "timestamp": "2026-08-17T11:25:18.317Z",
+    "ipAddress": "39.32.223.211, 169.254.169.126",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+  },
+  {
+    "id": "log-1786965909282-566i",
+    "adminId": "admin-super-01",
+    "username": "mirishfaqahmad",
+    "action": "login",
+    "resource": "auth",
+    "timestamp": "2026-08-17T11:25:09.283Z",
+    "ipAddress": "39.32.223.211, 169.254.169.126",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+  },
+  {
+    "id": "log-1786965905013-hc5r",
+    "adminId": "admin-super-01",
+    "username": "mirishfaqahmad",
+    "action": "login",
+    "resource": "auth",
+    "timestamp": "2026-08-17T11:25:05.013Z",
+    "ipAddress": "39.32.223.211, 169.254.169.126",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+  }
+]

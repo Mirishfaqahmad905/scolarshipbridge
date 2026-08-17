@@ -480,22 +480,28 @@ publicRouter.get('/search', async (req: Request, res: Response) => {
 publicRouter.post('/newsletter/subscribe', async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
-    if (!email || !email.includes('@')) {
-      res.status(400).json({ success: false, message: 'Valid email address is required' });
+    if (!email || typeof email !== 'string' || !email.includes('@')) {
+      res.status(400).json({ success: false, message: 'Valid email address is required.' });
       return;
     }
 
+    const cleanEmail = email.toLowerCase().trim();
     const list = await JsonDatabase.findAll<SubscriberRecord>('subscribers');
-    const existing = list.find((s) => s.email.toLowerCase() === email.toLowerCase().trim());
+    const existing = list.find((s) => s.email.toLowerCase() === cleanEmail);
 
     if (existing) {
-      res.json({ success: true, message: 'You are already registered for weekly scholarship alerts.' });
+      res.json({
+        success: true,
+        alreadySubscribed: true,
+        email: cleanEmail,
+        message: 'This email address is already subscribed to weekly scholarship updates.'
+      });
       return;
     }
 
     const newSub: SubscriberRecord = {
       id: `sub-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-      email: email.toLowerCase().trim(),
+      email: cleanEmail,
       subscribedAt: new Date().toISOString().split('T')[0],
       active: true
     };
@@ -504,7 +510,9 @@ publicRouter.post('/newsletter/subscribe', async (req: Request, res: Response) =
 
     res.status(201).json({
       success: true,
-      message: 'Subscribed successfully to scholarship deadline alerts!'
+      alreadySubscribed: false,
+      email: cleanEmail,
+      message: 'Subscribed successfully! You will receive weekly verified scholarship updates.'
     });
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });

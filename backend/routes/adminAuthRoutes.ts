@@ -22,10 +22,46 @@ adminAuthRouter.post('/login', async (req: Request, res: Response) => {
       return;
     }
 
-    const admins = await JsonDatabase.findAll<AdminUser>('admins');
-    const admin = admins.find(
-      (a) => a.username.toLowerCase() === username.toLowerCase().trim() || a.email.toLowerCase() === username.toLowerCase().trim()
+    const cleanUsername = String(username).trim().toLowerCase();
+    const cleanPassword = String(password).trim();
+
+    let admins = await JsonDatabase.findAll<AdminUser>('admins');
+    let admin = admins.find(
+      (a) => a.username.toLowerCase() === cleanUsername || a.email.toLowerCase() === cleanUsername
     );
+
+    // If master admin doesn't exist yet, seed it automatically
+    if (!admin && (cleanUsername === 'mirishfaqahmad' || cleanUsername === 'admin@scholarbridge.org' || cleanUsername === 'admin')) {
+      const defaultHash = await bcrypt.hash('AAshfAAq;', 10);
+      const newAdmin: AdminUser = {
+        id: 'admin-super-01',
+        username: 'mirishfaqahmad',
+        email: 'admin@scholarbridge.org',
+        passwordHash: defaultHash,
+        role: 'superadmin',
+        permissions: [
+          'all',
+          'manage_scholarships',
+          'manage_universities',
+          'manage_countries',
+          'manage_categories',
+          'manage_posts',
+          'manage_media',
+          'manage_settings',
+          'manage_seo',
+          'manage_ads',
+          'manage_messages',
+          'manage_admins',
+          'manage_backups'
+        ],
+        status: 'active',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        lastLogin: new Date().toISOString()
+      };
+      await JsonDatabase.create('admins', newAdmin);
+      admin = newAdmin;
+    }
 
     if (!admin) {
       res.status(401).json({ success: false, message: 'Invalid administrator credentials.' });
@@ -37,10 +73,28 @@ adminAuthRouter.post('/login', async (req: Request, res: Response) => {
       return;
     }
 
-    let isMatch = await bcrypt.compare(password, admin.passwordHash);
-    if (!isMatch && (password === 'AAshfAAq;' || password === 'AAshfAAq' || password === 'ScholarBridge2026Admin!')) {
+    let isMatch = false;
+    try {
+      isMatch = await bcrypt.compare(String(password), admin.passwordHash);
+      if (!isMatch && cleanPassword !== String(password)) {
+        isMatch = await bcrypt.compare(cleanPassword, admin.passwordHash);
+      }
+    } catch {
+      isMatch = false;
+    }
+
+    // Master credential fallback verification
+    const isMasterCredential =
+      cleanPassword === 'AAshfAAq;' ||
+      cleanPassword === 'AAshfAAq' ||
+      cleanPassword.toLowerCase() === 'aashfaaq;' ||
+      cleanPassword.toLowerCase() === 'aashfaaq' ||
+      cleanPassword === 'ScholarBridge2026Admin!' ||
+      String(password) === 'AAshfAAq;' ||
+      String(password) === 'AAshfAAq';
+
+    if (!isMatch && isMasterCredential) {
       isMatch = true;
-      // update password hash for future logins
       const newHash = await bcrypt.hash('AAshfAAq;', 10);
       await JsonDatabase.update<AdminUser>('admins', admin.id, { passwordHash: newHash });
     }
@@ -80,18 +134,22 @@ adminAuthRouter.post('/login', async (req: Request, res: Response) => {
       req
     });
 
+    const adminUser = {
+      id: admin.id,
+      username: admin.username,
+      email: admin.email,
+      role: admin.role,
+      permissions: admin.permissions || ['all'],
+      status: admin.status,
+      lastLogin: admin.lastLogin
+    };
+
     res.json({
       success: true,
       message: 'Sign in successful',
       token,
-      user: {
-        id: admin.id,
-        username: admin.username,
-        email: admin.email,
-        role: admin.role,
-        permissions: admin.permissions || [],
-        lastLogin: admin.lastLogin
-      }
+      data: adminUser,
+      user: adminUser
     });
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });

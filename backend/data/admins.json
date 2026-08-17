@@ -1,0 +1,28 @@
+[
+  {
+    "id": "admin-super-01",
+    "username": "mirishfaqahmad",
+    "email": "admin@scholarbridge.org",
+    "passwordHash": "$2b$10$CfLu3MFwSlbUDmNxoKlkQOvmgrLxCjAQrAi8Y6spfe0IxVFTeL.TO",
+    "role": "superadmin",
+    "permissions": [
+      "all",
+      "manage_scholarships",
+      "manage_universities",
+      "manage_countries",
+      "manage_categories",
+      "manage_posts",
+      "manage_media",
+      "manage_settings",
+      "manage_seo",
+      "manage_ads",
+      "manage_messages",
+      "manage_admins",
+      "manage_backups"
+    ],
+    "status": "active",
+    "createdAt": "2026-08-17T10:41:50.078Z",
+    "updatedAt": "2026-08-17T11:54:45.578Z",
+    "lastLogin": "2026-08-17T11:54:45.577Z"
+  }
+]

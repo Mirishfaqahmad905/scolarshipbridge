@@ -33,6 +33,8 @@ interface AppContextType {
   contactMessages: ContactMessage[];
   toasts: ToastMessage[];
   activeFilters: FilterState;
+  isNewsletterSubscribed: boolean;
+  subscribedEmail: string | null;
   
   // Actions
   toggleBookmark: (scholarshipId: string) => void;
@@ -46,7 +48,8 @@ interface AppContextType {
   updateUserProfile: (data: Partial<User>) => void;
   updateAnnouncement: (config: AnnouncementConfig) => void;
   addComment: (scholarshipId: string, authorName: string, authorEmail: string, content: string) => void;
-  subscribeNewsletter: (email: string) => boolean;
+  subscribeNewsletter: (email: string) => Promise<{ success: boolean; alreadySubscribed?: boolean; email?: string; message: string }>;
+  unsubscribeNewsletter: () => void;
   submitContactForm: (data: Omit<ContactMessage, 'id' | 'submittedAt' | 'read'>) => void;
   
   // Admin CRUD Actions
@@ -114,6 +117,20 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [contactMessages, setContactMessages] = useState<ContactMessage[]>([]);
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
   const [activeFilters, setActiveFilters] = useState<FilterState>(defaultFilters);
+  const [isNewsletterSubscribed, setIsNewsletterSubscribed] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('scholarbridge_is_subscribed_v1') === 'true';
+    } catch {
+      return false;
+    }
+  });
+  const [subscribedEmail, setSubscribedEmail] = useState<string | null>(() => {
+    try {
+      return localStorage.getItem('scholarbridge_subscribed_email_v1') || null;
+    } catch {
+      return null;
+    }
+  });
 
   // Initialize data on mount
   useEffect(() => {
@@ -139,6 +156,12 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
       const savedComments = localStorage.getItem('scholarbridge_comments_v1');
       if (savedComments) setComments(JSON.parse(savedComments));
+
+      const savedSubEmail = localStorage.getItem('scholarbridge_subscribed_email_v1');
+      if (savedSubEmail) {
+        setSubscribedEmail(savedSubEmail);
+        setIsNewsletterSubscribed(true);
+      }
     } catch {
       // Ignore local storage parse error
     }
@@ -278,39 +301,128 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     });
   };
 
-  const subscribeNewsletter = (email: string): boolean => {
-    if (!email || !email.includes('@')) {
+  const subscribeNewsletter = async (email: string): Promise<{ success: boolean; alreadySubscribed?: boolean; email?: string; message: string }> => {
+    const cleanEmail = (email || '').trim().toLowerCase();
+    if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
       addToast({
         type: 'error',
-        title: 'Invalid Email',
-        message: 'Please enter a valid email address.'
+        title: 'Invalid Email Address',
+        message: 'Please enter a valid email address to receive scholarship updates.'
       });
-      return false;
+      return {
+        success: false,
+        message: 'Please enter a valid email address.'
+      };
     }
-    const exists = subscribers.some(s => s.email.toLowerCase() === email.toLowerCase());
-    if (exists) {
+
+    // Check local subscribers array
+    const existsLocally = subscribers.some(s => s.email.toLowerCase() === cleanEmail);
+    if (existsLocally) {
+      setIsNewsletterSubscribed(true);
+      setSubscribedEmail(cleanEmail);
+      localStorage.setItem('scholarbridge_is_subscribed_v1', 'true');
+      localStorage.setItem('scholarbridge_subscribed_email_v1', cleanEmail);
       addToast({
         type: 'info',
         title: 'Already Subscribed',
-        message: 'You are already registered for weekly scholarship alerts.'
+        message: 'This email address is already subscribed to weekly scholarship updates.'
       });
-      return true;
+      return {
+        success: true,
+        alreadySubscribed: true,
+        email: cleanEmail,
+        message: 'This email address is already subscribed to weekly scholarship updates.'
+      };
     }
-    const newSub: Subscriber = {
-      id: `sub-${Date.now()}`,
-      email,
-      subscribedAt: new Date().toISOString().split('T')[0],
-      active: true
-    };
-    const updated = [newSub, ...subscribers];
-    setSubscribers(updated);
-    localStorage.setItem('scholarbridge_subscribers_v1', JSON.stringify(updated));
+
+    try {
+      const res = await scholarshipApi.subscribeNewsletter(cleanEmail);
+      if (res && res.alreadySubscribed) {
+        setIsNewsletterSubscribed(true);
+        setSubscribedEmail(cleanEmail);
+        localStorage.setItem('scholarbridge_is_subscribed_v1', 'true');
+        localStorage.setItem('scholarbridge_subscribed_email_v1', cleanEmail);
+        addToast({
+          type: 'info',
+          title: 'Already Subscribed',
+          message: res.message || 'This email address is already subscribed to weekly scholarship updates.'
+        });
+        return {
+          success: true,
+          alreadySubscribed: true,
+          email: cleanEmail,
+          message: res.message || 'This email address is already subscribed to weekly scholarship updates.'
+        };
+      }
+
+      // New subscriber
+      const newSub: Subscriber = {
+        id: `sub-${Date.now()}`,
+        email: cleanEmail,
+        subscribedAt: new Date().toISOString().split('T')[0],
+        active: true
+      };
+      const updated = [newSub, ...subscribers];
+      setSubscribers(updated);
+      localStorage.setItem('scholarbridge_subscribers_v1', JSON.stringify(updated));
+      setIsNewsletterSubscribed(true);
+      setSubscribedEmail(cleanEmail);
+      localStorage.setItem('scholarbridge_is_subscribed_v1', 'true');
+      localStorage.setItem('scholarbridge_subscribed_email_v1', cleanEmail);
+
+      addToast({
+        type: 'success',
+        title: 'Subscribed Successfully! 🎉',
+        message: 'You are now registered for weekly verified scholarship alerts.'
+      });
+
+      return {
+        success: true,
+        alreadySubscribed: false,
+        email: cleanEmail,
+        message: 'Subscribed successfully! You will receive weekly verified scholarship updates.'
+      };
+    } catch {
+      // Offline / network fallback
+      const newSub: Subscriber = {
+        id: `sub-${Date.now()}`,
+        email: cleanEmail,
+        subscribedAt: new Date().toISOString().split('T')[0],
+        active: true
+      };
+      const updated = [newSub, ...subscribers];
+      setSubscribers(updated);
+      localStorage.setItem('scholarbridge_subscribers_v1', JSON.stringify(updated));
+      setIsNewsletterSubscribed(true);
+      setSubscribedEmail(cleanEmail);
+      localStorage.setItem('scholarbridge_is_subscribed_v1', 'true');
+      localStorage.setItem('scholarbridge_subscribed_email_v1', cleanEmail);
+
+      addToast({
+        type: 'success',
+        title: 'Subscribed Successfully! 🎉',
+        message: 'You are now registered for weekly verified scholarship alerts.'
+      });
+
+      return {
+        success: true,
+        alreadySubscribed: false,
+        email: cleanEmail,
+        message: 'Subscribed successfully!'
+      };
+    }
+  };
+
+  const unsubscribeNewsletter = () => {
+    setIsNewsletterSubscribed(false);
+    setSubscribedEmail(null);
+    localStorage.removeItem('scholarbridge_is_subscribed_v1');
+    localStorage.removeItem('scholarbridge_subscribed_email_v1');
     addToast({
-      type: 'success',
-      title: 'Subscribed Successfully! 🎉',
-      message: 'You will receive the latest verified scholarship alerts in your inbox.'
+      type: 'info',
+      title: 'Subscription Reset',
+      message: 'You can now enter a new email address to subscribe.'
     });
-    return true;
   };
 
   const submitContactForm = (data: Omit<ContactMessage, 'id' | 'submittedAt' | 'read'>) => {
@@ -399,6 +511,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         contactMessages,
         toasts,
         activeFilters,
+        isNewsletterSubscribed,
+        subscribedEmail,
         toggleBookmark,
         isBookmarked,
         clearBookmarks,
@@ -411,6 +525,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         updateAnnouncement,
         addComment,
         subscribeNewsletter,
+        unsubscribeNewsletter,
         submitContactForm,
         saveScholarship,
         deleteScholarship,
