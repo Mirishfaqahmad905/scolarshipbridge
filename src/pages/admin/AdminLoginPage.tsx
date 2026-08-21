@@ -9,8 +9,8 @@ export const AdminLoginPage: React.FC = () => {
   const location = useLocation();
   const { addToast } = useApp();
 
-  const [username, setUsername] = useState('mirishfaqahmad');
-  const [password, setPassword] = useState('AAshfAAq;');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -58,12 +58,6 @@ export const AdminLoginPage: React.FC = () => {
     }
   };
 
-  const handleQuickFill = () => {
-    setUsername('mirishfaqahmad');
-    setPassword('AAshfAAq;');
-    setErrorMessage('');
-  };
-
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden font-sans">
       {/* Background Subtle Gradient Blobs */}
@@ -105,7 +99,7 @@ export const AdminLoginPage: React.FC = () => {
                   required
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="mirishfaqahmad"
+                  placeholder="Enter admin username"
                   className="w-full pl-10 pr-4 py-2.5 bg-slate-800/80 border border-slate-700 rounded-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all"
                 />
               </div>
@@ -127,7 +121,7 @@ export const AdminLoginPage: React.FC = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••••••"
+                  placeholder="Enter your password"
                   className="w-full pl-10 pr-10 py-2.5 bg-slate-800/80 border border-slate-700 rounded-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all"
                 />
                 <button
@@ -172,23 +166,6 @@ export const AdminLoginPage: React.FC = () => {
               )}
             </button>
           </form>
-
-          {/* Quick Demo Credentials Helper */}
-          <div className="pt-4 border-t border-slate-800/80">
-            <div className="p-3 bg-slate-800/60 rounded-xl border border-slate-700/60 flex items-center justify-between">
-              <div>
-                <p className="text-[11px] font-bold text-slate-300">Master Super Admin</p>
-                <p className="text-[10px] text-slate-500 font-mono">mirishfaqahmad / AAshfAAq;</p>
-              </div>
-              <button
-                type="button"
-                onClick={handleQuickFill}
-                className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-slate-700 hover:bg-slate-600 text-amber-400 rounded-lg transition-colors cursor-pointer"
-              >
-                Auto Fill
-              </button>
-            </div>
-          </div>
         </div>
 
         {/* Back to Public Site Link */}
