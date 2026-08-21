@@ -16,7 +16,8 @@ import {
   User as UserIcon,
   LogOut,
   Sliders,
-  Compass
+  Compass,
+  Mail
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
@@ -280,6 +281,31 @@ export const Navbar: React.FC = () => {
               <BookOpen className="w-4 h-4 text-slate-400" />
               <span>Guides</span>
             </Link>
+
+            {/* Application Services */}
+            <Link
+              to="/services"
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                location.pathname === '/services'
+                  ? 'text-indigo-600 bg-indigo-50/70 font-semibold'
+                  : 'text-slate-700 hover:text-indigo-600 hover:bg-slate-50'
+              }`}
+            >
+              <Sparkles className="w-4 h-4 text-amber-500" />
+              <span>Services</span>
+            </Link>
+
+            {/* About & Contact */}
+            <Link
+              to="/about"
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                location.pathname === '/about'
+                  ? 'text-indigo-600 bg-indigo-50/70 font-semibold'
+                  : 'text-slate-700 hover:text-indigo-600 hover:bg-slate-50'
+              }`}
+            >
+              <span>About</span>
+            </Link>
           </nav>
 
           {/* Quick Search Bar & Right Action Controls */}
@@ -525,6 +551,30 @@ export const Navbar: React.FC = () => {
             >
               <BookOpen className="w-5 h-5 text-indigo-600" />
               <span>Guides & SOP Templates</span>
+            </Link>
+
+            <Link
+              to="/services"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-indigo-600 bg-indigo-50/60 hover:bg-indigo-100"
+            >
+              <Sparkles className="w-5 h-5 text-amber-500" />
+              <span>Scholarship & CV Services</span>
+            </Link>
+
+            <Link
+              to="/about"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-800 hover:bg-slate-100"
+            >
+              <UserIcon className="w-5 h-5 text-indigo-600" />
+              <span>About Mir Ishfaq Ahmad</span>
+            </Link>
+
+            <Link
+              to="/contact"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-800 hover:bg-slate-100"
+            >
+              <Mail className="w-5 h-5 text-indigo-600" />
+              <span>Contact Desk</span>
             </Link>
           </div>
 

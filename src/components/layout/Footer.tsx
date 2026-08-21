@@ -337,12 +337,62 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Col 4: Platform & Resources */}
+          {/* Col 4: Services & Mentorship */}
           <div>
-            <h4 className="text-xs uppercase font-bold tracking-wider text-slate-200 mb-4">
-              Tools & Resources
+            <h4 className="text-xs uppercase font-bold tracking-wider text-amber-300 mb-4 flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Application Services</span>
             </h4>
             <ul className="space-y-2.5 text-sm">
+              <li>
+                <Link to="/services" className="hover:text-white transition-colors text-amber-200/90 font-medium">
+                  We Apply For You (Portal Submission)
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="hover:text-white transition-colors">
+                  Academic & ATS CV Designing
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="hover:text-white transition-colors">
+                  Research Proposals & Synopses
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="hover:text-white transition-colors">
+                  SOP & Motivation Letter Crafting
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="hover:text-white transition-colors">
+                  Web Dev & Vercel Deployment
+                </Link>
+              </li>
+              <li>
+                <a 
+                  href="https://wa.me/923463079238" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-1 font-semibold"
+                >
+                  <span>WhatsApp: +92-346-3079238</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Col 5: Platform & Resources */}
+          <div>
+            <h4 className="text-xs uppercase font-bold tracking-wider text-slate-200 mb-4">
+              Platform & About
+            </h4>
+            <ul className="space-y-2.5 text-sm">
+              <li>
+                <Link to="/about" className="hover:text-white transition-colors font-medium text-indigo-300">
+                  About Mir Ishfaq Ahmad (Founder)
+                </Link>
+              </li>
               <li>
                 <Link to="/calendar" className="hover:text-white transition-colors">
                   Deadline Calendar
@@ -364,18 +414,8 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/bookmarks" className="hover:text-white transition-colors">
-                  My Saved Scholarships
-                </Link>
-              </li>
-              <li>
                 <Link to="/contact" className="hover:text-white transition-colors">
                   Contact Support Desk
-                </Link>
-              </li>
-              <li>
-                <Link to="/about" className="hover:text-white transition-colors">
-                  About ScholarBridge
                 </Link>
               </li>
             </ul>

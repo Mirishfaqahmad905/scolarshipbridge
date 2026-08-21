@@ -25,6 +25,7 @@ import { BookmarksPage } from './pages/BookmarksPage';
 import { CalendarPage } from './pages/CalendarPage';
 import { OpportunitiesPage } from './pages/OpportunitiesPage';
 import { UserProfilePage } from './pages/UserProfilePage';
+import { ServicesPage } from './pages/ServicesPage';
 import { AboutPage, ContactPage, PrivacyPolicyPage } from './pages/AboutContactPages';
 
 // Scroll to top component on route changes
@@ -79,6 +80,7 @@ const MainLayout: React.FC = () => {
           <Route path="/bookmarks" element={<BookmarksPage />} />
           <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/opportunities" element={<OpportunitiesPage />} />
+          <Route path="/services" element={<ServicesPage />} />
           <Route path="/profile" element={<UserProfilePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
