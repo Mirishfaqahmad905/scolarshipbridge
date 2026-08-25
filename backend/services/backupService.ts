@@ -87,23 +87,31 @@ export class BackupService {
       sizeBytes: number;
     }>
   > {
-    await JsonDatabase.ensureDirectories();
-    const files = await fs.readdir(BACKUPS_DIR);
-    const jsonBackups = files.filter((f) => f.endsWith('.json'));
+    try {
+      await JsonDatabase.ensureDirectories();
+      const files = await fs.readdir(BACKUPS_DIR).catch(() => []);
+      const jsonBackups = files.filter((f) => f.endsWith('.json'));
 
-    const list = [];
-    for (const f of jsonBackups) {
-      const filePath = path.join(BACKUPS_DIR, f);
-      const stat = await fs.stat(filePath);
-      list.push({
-        backupId: f.replace('.json', ''),
-        filename: f,
-        createdAt: stat.mtime.toISOString(),
-        sizeBytes: stat.size
-      });
+      const list = [];
+      for (const f of jsonBackups) {
+        try {
+          const filePath = path.join(BACKUPS_DIR, f);
+          const stat = await fs.stat(filePath);
+          list.push({
+            backupId: f.replace('.json', ''),
+            filename: f,
+            createdAt: stat.mtime.toISOString(),
+            sizeBytes: stat.size
+          });
+        } catch {
+          // ignore
+        }
+      }
+
+      return list.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    } catch {
+      return [];
     }
-
-    return list.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   }
 
   /**

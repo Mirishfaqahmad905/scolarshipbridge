@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { initializeJsonDatabase } from '../backend/services/initData';
@@ -10,7 +10,7 @@ import { errorHandler } from '../backend/middleware/errorHandler';
 
 const app = express();
 
-// Initialize JSON storage database files if needed
+// Initialize JSON database safely in memory & disk
 initializeJsonDatabase().catch((err) => {
   console.warn('[Vercel Serverless] JSON DB initialization notice:', err);
 });
@@ -22,7 +22,8 @@ app.use(express.urlencoded({ extended: true, limit: '25mb' }));
 
 app.use(sitemapRobotsRouter);
 
-app.get('/api/health', (_req, res) => {
+// Health endpoints
+app.get(['/api/health', '/health'], (_req: Request, res: Response) => {
   res.json({
     status: 'ok',
     platform: 'Vercel Serverless / Cloud Run',
@@ -30,9 +31,19 @@ app.get('/api/health', (_req, res) => {
   });
 });
 
-app.use('/api', publicRouter);
+// Admin Auth Routes (support both /api/admin/auth and /admin/auth)
 app.use('/api/admin/auth', adminAuthRouter);
+app.use('/admin/auth', adminAuthRouter);
+
+// Admin CRUD Routes (support both /api/admin and /admin)
 app.use('/api/admin', adminCrudRouter);
+app.use('/admin', adminCrudRouter);
+
+// Public Routes (support both /api and /)
+app.use('/api', publicRouter);
+app.use('/', publicRouter);
+
+// Central Error Handler
 app.use(errorHandler);
 
 export default app;

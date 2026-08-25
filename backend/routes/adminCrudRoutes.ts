@@ -112,16 +112,43 @@ adminCrudRouter.get('/dashboard', async (req: AuthRequest, res: Response) => {
 adminCrudRouter.get('/scholarships', async (req: AuthRequest, res: Response) => {
   try {
     const list = await JsonDatabase.findAll<ScholarshipRecord>('scholarships');
-    const search = ((req.query.search || '') as string).toLowerCase();
+    const search = ((req.query.search || req.query.q || '') as string).toLowerCase().trim();
     const status = (req.query.status || 'all') as string;
+    const country = (req.query.country || 'all') as string;
+    const degree = (req.query.degree || 'all') as string;
+    const category = (req.query.category || 'all') as string;
+    const funding = (req.query.funding || 'all') as string;
+    const sortBy = (req.query.sortBy || 'newest') as string;
+
     const page = Math.max(1, parseInt((req.query.page as string) || '1', 10));
     const limit = Math.max(1, Math.min(100, parseInt((req.query.limit as string) || '50', 10)));
 
     let filtered = list.filter((item) => {
+      if (!item) return false;
       if (status !== 'all' && item.status !== status) return false;
-      if (search && !item.title.toLowerCase().includes(search) && !item.country.toLowerCase().includes(search)) return false;
+      if (country !== 'all' && (item.country || '').toLowerCase() !== country.toLowerCase()) return false;
+      if (degree !== 'all' && !item.degreeLevels?.some((d) => d.toLowerCase() === degree.toLowerCase())) return false;
+      if (category !== 'all' && (item.category || '').toLowerCase() !== category.toLowerCase()) return false;
+      if (funding !== 'all' && (item.fundingType || '').toLowerCase().replace(/\s+/g, '-') !== funding.toLowerCase()) return false;
+
+      if (search) {
+        const titleMatch = (item.title || '').toLowerCase().includes(search);
+        const countryMatch = (item.country || '').toLowerCase().includes(search);
+        const orgMatch = (item.organization || '').toLowerCase().includes(search);
+        const uniMatch = (item.university || '').toLowerCase().includes(search);
+        if (!titleMatch && !countryMatch && !orgMatch && !uniMatch) return false;
+      }
       return true;
     });
+
+    // Sorting
+    if (sortBy === 'deadline') {
+      filtered.sort((a, b) => (a.deadline || '9999').localeCompare(b.deadline || '9999'));
+    } else if (sortBy === 'title') {
+      filtered.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+    } else {
+      filtered.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+    }
 
     const total = filtered.length;
     const startIndex = (page - 1) * limit;
