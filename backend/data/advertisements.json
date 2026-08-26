@@ -1,0 +1,53 @@
+[
+  {
+    "id": "ad-top-banner",
+    "name": "Top Header Leaderboard Ad",
+    "type": "adsense",
+    "placement": "header",
+    "adClient": "ca-pub-XXXXXXXXXXXXXXX",
+    "adSlot": "1234567890",
+    "status": "active",
+    "device": "all",
+    "priority": 1,
+    "pages": [
+      "all"
+    ],
+    "createdAt": "2026-08-26T06:09:41.951Z",
+    "updatedAt": "2026-08-26T06:09:41.951Z"
+  },
+  {
+    "id": "ad-detail-sidebar",
+    "name": "Scholarship Detail Sidebar Ad",
+    "type": "adsense",
+    "placement": "sidebar",
+    "adClient": "ca-pub-XXXXXXXXXXXXXXX",
+    "adSlot": "9876543210",
+    "status": "active",
+    "device": "desktop",
+    "priority": 1,
+    "pages": [
+      "detail",
+      "scholarships"
+    ],
+    "createdAt": "2026-08-26T06:09:41.951Z",
+    "updatedAt": "2026-08-26T06:09:41.951Z"
+  },
+  {
+    "id": "ad-in-article",
+    "name": "In-Article Content Ad",
+    "type": "adsense",
+    "placement": "insideContent",
+    "adClient": "ca-pub-XXXXXXXXXXXXXXX",
+    "adSlot": "5555555555",
+    "status": "active",
+    "device": "all",
+    "priority": 2,
+    "pages": [
+      "news",
+      "guides",
+      "detail"
+    ],
+    "createdAt": "2026-08-26T06:09:41.951Z",
+    "updatedAt": "2026-08-26T06:09:41.951Z"
+  }
+]

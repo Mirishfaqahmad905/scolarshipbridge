@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Save, Settings, Shield, Globe, Bell, DollarSign, Image as ImageIcon, CheckCircle2 } from 'lucide-react';
+import { Save, Settings, Shield, Globe, Bell, DollarSign, Image as ImageIcon, CheckCircle2, Terminal } from 'lucide-react';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import { Base64Uploader } from '../../components/admin/Base64Uploader';
-import { scholarshipApi } from '../../services/api';
+import { scholarshipApi, runComprehensiveApiDiagnostics, runVercelAdminDiagnosticSuite, checkVercelEnvResolution } from '../../services/api';
 import { useApp } from '../../context/AppContext';
 
 export const AdminSettingsPage: React.FC = () => {
@@ -218,6 +218,160 @@ export const AdminSettingsPage: React.FC = () => {
                   className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-mono text-[11px] outline-none"
                 />
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* API & Backend Connection */}
+        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+            <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <Globe className="w-4 h-4 text-indigo-600" />
+              <span>4. Backend API URL & Online Deployment Endpoint</span>
+            </h4>
+            <span className="text-[10px] font-bold px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded-full border border-emerald-200">
+              Active Mode: {localStorage.getItem('scholarbridge_api_base_url') ? 'Custom URL' : 'Default (/api)'}
+            </span>
+          </div>
+
+          <div className="space-y-3 text-xs">
+            <div>
+              <label className="block font-bold text-slate-700 uppercase tracking-wider mb-1">
+                Custom Backend API Base URL (Optional)
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder="e.g. https://your-backend-api.vercel.app/api or /api"
+                  value={localStorage.getItem('scholarbridge_api_base_url') || ''}
+                  onChange={(e) => {
+                    const val = e.target.value.trim();
+                    if (val) {
+                      localStorage.setItem('scholarbridge_api_base_url', val);
+                    } else {
+                      localStorage.removeItem('scholarbridge_api_base_url');
+                    }
+                    setFormData({ ...formData, _customApiUrl: val });
+                  }}
+                  className="flex-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-mono text-[11px] outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={async () => {
+                    try {
+                      const res = await scholarshipApi.healthCheck();
+                      addToast({
+                        type: 'success',
+                        title: 'API Connection Successful',
+                        message: `Connected to backend (${res.platform || 'Active'})! Status: ${res.status || 'OK'}`
+                      });
+                    } catch (err: any) {
+                      addToast({
+                        type: 'error',
+                        title: 'API Connection Failed',
+                        message: 'Could not connect to specified API endpoint. Falling back to local offline dataset.'
+                      });
+                    }
+                  }}
+                  className="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl cursor-pointer"
+                >
+                  Test Health
+                </button>
+              </div>
+              <p className="text-[11px] text-slate-500 mt-1">
+                Leave empty to use relative <code className="font-mono bg-slate-100 px-1 rounded">/api</code> (Vercel Serverless Function). If you host your backend Express server on a separate domain (e.g. Render, Railway, Vercel), enter its full API endpoint here.
+              </p>
+            </div>
+
+            {/* Diagnostic Utility Runner */}
+            <div className="mt-4 p-5 bg-slate-900 text-white rounded-2xl border border-slate-800 space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Terminal className="w-4 h-4 text-emerald-400" />
+                  <span className="font-bold text-xs uppercase tracking-wider text-slate-200">Vercel & /api/admin Diagnostic Suite</span>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const envRep = checkVercelEnvResolution();
+                      setFormData((prev: any) => ({ ...prev, _envRep: envRep }));
+                      addToast({
+                        type: envRep.status === 'OPTIMAL' ? 'success' : 'warning',
+                        title: `Vercel Env: ${envRep.status}`,
+                        message: `Base URL: ${envRep.effectiveBaseUrl} (${envRep.resolutionStrategy}). Check console for table.`
+                      });
+                    }}
+                    className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-[11px] rounded-lg transition-colors cursor-pointer"
+                  >
+                    Check Env Resolution
+                  </button>
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      try {
+                        setIsLoading(true);
+                        const res = await runVercelAdminDiagnosticSuite();
+                        setFormData((prev: any) => ({ ...prev, _adminSuite: res, _envRep: res.envReport }));
+                        addToast({
+                          type: res.allPassed ? 'success' : 'warning',
+                          title: res.allPassed ? 'All Admin Routes OK' : 'Some Routes Failed',
+                          message: `Tested 5 /api/admin endpoints. Base URL: ${res.envReport.effectiveBaseUrl}. Check console for stack traces!`
+                        });
+                      } catch (err: any) {
+                        addToast({
+                          type: 'error',
+                          title: 'Diagnostic Error',
+                          message: err.message
+                        });
+                      } finally {
+                        setIsLoading(false);
+                      }
+                    }}
+                    className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[11px] rounded-lg transition-colors cursor-pointer"
+                  >
+                    Run /api/admin Diagnostic Suite
+                  </button>
+                </div>
+              </div>
+
+              {formData._envRep && (
+                <div className="p-3.5 bg-slate-950 rounded-xl font-mono text-[11px] space-y-1.5 border border-slate-800">
+                  <div className="flex justify-between items-center pb-1 border-b border-slate-800">
+                    <span className="text-slate-400">Environment Status:</span>
+                    <span className={`px-2 py-0.5 rounded font-bold ${formData._envRep.status === 'OPTIMAL' ? 'bg-emerald-950 text-emerald-400' : 'bg-amber-950 text-amber-400'}`}>
+                      {formData._envRep.status} ({formData._envRep.resolutionStrategy})
+                    </span>
+                  </div>
+                  <div className="text-slate-300">Effective Base URL: <span className="text-indigo-400 font-bold">{formData._envRep.effectiveBaseUrl}</span></div>
+                  <div className="text-slate-400 text-[10px]">Vercel Host: {formData._envRep.isVercelHost ? 'Yes (.vercel.app)' : 'Local / Custom'} | VITE_API_URL: {formData._envRep.viteApiUrlEnv || '(none)'}</div>
+                </div>
+              )}
+
+              {formData._adminSuite && (
+                <div className="p-3.5 bg-slate-950 rounded-xl font-mono text-[11px] space-y-2 border border-slate-800">
+                  <div className="text-slate-300 font-bold flex justify-between">
+                    <span>Admin Route Verifications:</span>
+                    <span className={formData._adminSuite.allPassed ? 'text-emerald-400' : 'text-rose-400'}>
+                      {formData._adminSuite.allPassed ? '✅ All 5 Passed' : '⚠️ Has Failures'}
+                    </span>
+                  </div>
+                  <div className="space-y-1">
+                    {formData._adminSuite.routeResults.map((item: any, i: number) => (
+                      <div key={i} className="flex justify-between items-center text-slate-300 border-b border-slate-900 pb-1">
+                        <span className="truncate max-w-[280px]">{item.endpoint}</span>
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${item.ok ? 'bg-emerald-950 text-emerald-400' : 'bg-rose-950 text-rose-400'}`}>
+                          HTTP {item.status} ({item.timeMs}ms)
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <p className="text-[10px] text-slate-400">
+                💡 <code>api-diagnostic.ts</code> wraps Axios requests to log the full request URL, attached headers, request body, server responses, and specific error stack traces for all <code>/api/admin/*</code> calls.
+              </p>
             </div>
           </div>
         </div>

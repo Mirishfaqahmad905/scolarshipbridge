@@ -1,0 +1,94 @@
+{
+  "siteName": "ScholarBridge",
+  "siteUrl": "http://localhost:3000",
+  "logo": "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&w=150&q=80",
+  "favicon": "/favicon.ico",
+  "contactEmail": "contact@scholarbridge.org",
+  "contactPhone": "+49 89 289 01",
+  "copyright": "© 2026 ScholarBridge Global Education Foundation. All rights reserved.",
+  "footerText": "ScholarBridge is an independent international scholarship directory and knowledge portal providing free, verified application guidance for students worldwide.",
+  "announcementBar": {
+    "enabled": true,
+    "badge": "🔥 HOT 2026/2027 INTAKE",
+    "text": "Explore Over 500+ Fully Funded International Scholarships & Study Abroad Opportunities",
+    "linkText": "Explore Fully Funded",
+    "linkUrl": "/category/fully-funded",
+    "bgStyle": "primary"
+  },
+  "header": {
+    "showSearch": true,
+    "showLanguageSwitcher": true,
+    "sticky": true
+  },
+  "footer": {
+    "showNewsletter": true,
+    "showSocial": true,
+    "columns": [
+      {
+        "title": "Explore Grants",
+        "links": [
+          {
+            "label": "Fully Funded Scholarships",
+            "url": "/category/fully-funded"
+          },
+          {
+            "label": "Government Awards",
+            "url": "/category/government"
+          },
+          {
+            "label": "Scholarships Without IELTS",
+            "url": "/category/no-ielts"
+          },
+          {
+            "label": "Master & PhD Fellowships",
+            "url": "/category/postgraduate"
+          }
+        ]
+      },
+      {
+        "title": "Top Destinations",
+        "links": [
+          {
+            "label": "Study in Germany (DAAD)",
+            "url": "/countries/germany"
+          },
+          {
+            "label": "Study in the UK (Chevening)",
+            "url": "/countries/united-kingdom"
+          },
+          {
+            "label": "Study in Japan (MEXT)",
+            "url": "/countries/japan"
+          },
+          {
+            "label": "Study in South Korea (GKS)",
+            "url": "/countries/south-korea"
+          }
+        ]
+      },
+      {
+        "title": "Platform & Support",
+        "links": [
+          {
+            "label": "About ScholarBridge",
+            "url": "/about"
+          },
+          {
+            "label": "Application Guides & News",
+            "url": "/news"
+          },
+          {
+            "label": "Direct Universities Index",
+            "url": "/universities"
+          },
+          {
+            "label": "Contact Help Desk",
+            "url": "/contact"
+          }
+        ]
+      }
+    ]
+  },
+  "defaultLanguage": "en",
+  "updatedAt": "2026-08-26T06:09:41.950Z"
+}

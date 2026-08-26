@@ -1,0 +1,54 @@
+[
+  {
+    "id": "cat-1",
+    "name": "Fully Funded Scholarships",
+    "slug": "fully-funded",
+    "description": "Complete tuition waivers, monthly stipends, health insurance, and international travel.",
+    "icon": "Award",
+    "position": 1,
+    "status": "active",
+    "seoTitle": "Fully Funded International Scholarships 2026/2027",
+    "seoDescription": "Find 100% full coverage scholarships worldwide with no tuition fees.",
+    "createdAt": "2026-08-26T06:09:41.944Z",
+    "updatedAt": "2026-08-26T06:09:41.944Z"
+  },
+  {
+    "id": "cat-2",
+    "name": "Government Scholarships",
+    "slug": "government",
+    "description": "Official bilateral government awards including DAAD, Chevening, MEXT, GKS, and Fulbright.",
+    "icon": "Landmark",
+    "position": 2,
+    "status": "active",
+    "seoTitle": "Government Funded Scholarships & Bilateral Fellowships",
+    "seoDescription": "Apply to world-renowned prestigious government grants.",
+    "createdAt": "2026-08-26T06:09:41.944Z",
+    "updatedAt": "2026-08-26T06:09:41.944Z"
+  },
+  {
+    "id": "cat-3",
+    "name": "Without IELTS Scholarships",
+    "slug": "no-ielts",
+    "description": "Study abroad opportunities accepting English Proficiency Certificates (MOI) and Duolingo.",
+    "icon": "Globe",
+    "position": 3,
+    "status": "active",
+    "seoTitle": "Scholarships Without IELTS Requirements",
+    "seoDescription": "Study overseas with medium of instruction certificates.",
+    "createdAt": "2026-08-26T06:09:41.944Z",
+    "updatedAt": "2026-08-26T06:09:41.944Z"
+  },
+  {
+    "id": "cat-4",
+    "name": "Master & PhD Fellowships",
+    "slug": "postgraduate",
+    "description": "Postgraduate research grants, doctoral funding, and graduate assistantships.",
+    "icon": "GraduationCap",
+    "position": 4,
+    "status": "active",
+    "seoTitle": "Master & PhD Research Fellowships",
+    "seoDescription": "Explore fully funded postgraduate programs.",
+    "createdAt": "2026-08-26T06:09:41.944Z",
+    "updatedAt": "2026-08-26T06:09:41.944Z"
+  }
+]

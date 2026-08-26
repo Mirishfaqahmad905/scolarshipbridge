@@ -1,0 +1,40 @@
+{
+  "title": "About ScholarBridge",
+  "subtitle": "Empowering Global Scholars with Verified, Direct-Access Educational Funding",
+  "content": "ScholarBridge is the world’s premier open-access platform dedicated to cataloging verified international scholarships, fellowships, tuition waivers, and study abroad funding opportunities. Our mission is to eliminate educational gatekeeping by connecting high-achieving students directly with official institutions and government grants.",
+  "mission": "To democratize access to world-class higher education by providing free, accurate, and direct application pathways for every deserving student globally.",
+  "vision": "A world where financial status is never a barrier to academic excellence and international research collaboration.",
+  "whyChooseUs": [
+    "100% Verified Official Portals with zero intermediaries or hidden fees",
+    "Real-Time Deadline Tracking with calendar alerts and timeline breakdowns",
+    "Clear Eligibility Checklists with IELTS exemption and document requirements",
+    "Direct Official Links connecting applicants straight to host universities and ministries"
+  ],
+  "team": [
+    {
+      "name": "Mir Ishfaq Ahmad",
+      "role": "Founder & Principal Editorial Director",
+      "bio": "International education strategist and scholarship mentor with over a decade of experience guiding global applicants.",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      "name": "Elena Rostova",
+      "role": "Head of Global Research & Verification",
+      "bio": "Former DAAD fellow and Erasmus Mundus scholar specializing in European grant policies.",
+      "avatar": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80"
+    }
+  ],
+  "featuredImage": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80",
+  "gallery": [],
+  "socialLinks": {
+    "facebook": "https://facebook.com/scholarbridge",
+    "twitter": "https://twitter.com/scholarbridge",
+    "linkedin": "https://linkedin.com/company/scholarbridge",
+    "telegram": "https://t.me/scholarbridge"
+  },
+  "seoTitle": "About ScholarBridge - Verified Global Scholarships Platform",
+  "seoDescription": "Learn about ScholarBridge mission to provide verified international scholarships and study abroad resources.",
+  "canonicalUrl": "https://scholarbridge.org/about",
+  "status": "published",
+  "updatedAt": "2026-08-26T06:09:41.945Z"
+}

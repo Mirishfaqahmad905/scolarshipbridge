@@ -1,0 +1,50 @@
+[
+  {
+    "id": "soc-1",
+    "platform": "Telegram",
+    "name": "ScholarBridge Official Channel",
+    "url": "https://t.me/scholarbridge",
+    "icon": "Send",
+    "enabled": true,
+    "position": 1,
+    "location": "all",
+    "createdAt": "2026-08-26T06:09:41.948Z",
+    "updatedAt": "2026-08-26T06:09:41.948Z"
+  },
+  {
+    "id": "soc-2",
+    "platform": "WhatsApp",
+    "name": "Scholarship Community Alert Group",
+    "url": "https://chat.whatsapp.com/scholarbridge",
+    "icon": "MessageCircle",
+    "enabled": true,
+    "position": 2,
+    "location": "all",
+    "createdAt": "2026-08-26T06:09:41.948Z",
+    "updatedAt": "2026-08-26T06:09:41.948Z"
+  },
+  {
+    "id": "soc-3",
+    "platform": "LinkedIn",
+    "name": "ScholarBridge Organization",
+    "url": "https://linkedin.com/company/scholarbridge",
+    "icon": "Linkedin",
+    "enabled": true,
+    "position": 3,
+    "location": "footer",
+    "createdAt": "2026-08-26T06:09:41.948Z",
+    "updatedAt": "2026-08-26T06:09:41.948Z"
+  },
+  {
+    "id": "soc-4",
+    "platform": "YouTube",
+    "name": "ScholarBridge Application Tutorials",
+    "url": "https://youtube.com/@scholarbridge",
+    "icon": "Youtube",
+    "enabled": true,
+    "position": 4,
+    "location": "footer",
+    "createdAt": "2026-08-26T06:09:41.948Z",
+    "updatedAt": "2026-08-26T06:09:41.948Z"
+  }
+]

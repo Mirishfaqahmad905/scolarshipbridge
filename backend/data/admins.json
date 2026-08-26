@@ -3,7 +3,7 @@
     "id": "admin-super-01",
     "username": "mirishfaqahmad",
     "email": "admin@scholarbridge.org",
-    "passwordHash": "$2b$10$CfLu3MFwSlbUDmNxoKlkQOvmgrLxCjAQrAi8Y6spfe0IxVFTeL.TO",
+    "passwordHash": "$2b$10$P5scdFFeMzzu8d.5kImkleBjM9ZK.A7EFwoLZY5rIhOcnvwINk/5G",
     "role": "superadmin",
     "permissions": [
       "all",

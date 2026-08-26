@@ -16,7 +16,7 @@ import { mockCountries } from '../../src/data/mockCountries';
 import { mockUniversities } from '../../src/data/mockUniversities';
 import { mockNewsArticles } from '../../src/data/mockNews';
 
-export async function initializeJsonDatabase(): Promise<void> {
+export async function initializeJsonDatabase(forceDiskWrite: boolean = false): Promise<void> {
   await JsonDatabase.ensureDirectories();
 
   // 1. Admins
@@ -65,32 +65,27 @@ export async function initializeJsonDatabase(): Promise<void> {
   }
 
   // 2. Scholarships
-  const existingScholarships = await JsonDatabase.findAll('scholarships');
-  if (existingScholarships.length === 0) {
+  if (forceDiskWrite || (await JsonDatabase.findAll('scholarships')).length === 0) {
     await JsonDatabase.writeData('scholarships', mockScholarships);
   }
 
   // 3. Universities
-  const existingUnis = await JsonDatabase.findAll('universities');
-  if (existingUnis.length === 0) {
+  if (forceDiskWrite || (await JsonDatabase.findAll('universities')).length === 0) {
     await JsonDatabase.writeData('universities', mockUniversities);
   }
 
   // 4. Countries
-  const existingCountries = await JsonDatabase.findAll('countries');
-  if (existingCountries.length === 0) {
+  if (forceDiskWrite || (await JsonDatabase.findAll('countries')).length === 0) {
     await JsonDatabase.writeData('countries', mockCountries);
   }
 
   // 5. Posts (News & Guides)
-  const existingPosts = await JsonDatabase.findAll('posts');
-  if (existingPosts.length === 0) {
+  if (forceDiskWrite || (await JsonDatabase.findAll('posts')).length === 0) {
     await JsonDatabase.writeData('posts', mockNewsArticles);
   }
 
   // 6. Categories
-  const existingCategories = await JsonDatabase.findAll<CategoryRecord>('categories');
-  if (existingCategories.length === 0) {
+  if (forceDiskWrite || (await JsonDatabase.findAll<CategoryRecord>('categories')).length === 0) {
     const defaultCategories: CategoryRecord[] = [
       {
         id: 'cat-1',
@@ -150,7 +145,7 @@ export async function initializeJsonDatabase(): Promise<void> {
 
   // 7. About Page Data
   const existingAbout = await JsonDatabase.readData<AboutPageData | null>('about', null);
-  if (!existingAbout || !existingAbout.title) {
+  if (forceDiskWrite || !existingAbout || !existingAbout.title) {
     const defaultAbout: AboutPageData = {
       title: 'About ScholarBridge',
       subtitle: 'Empowering Global Scholars with Verified, Direct-Access Educational Funding',
@@ -196,7 +191,7 @@ export async function initializeJsonDatabase(): Promise<void> {
 
   // 8. Contact Settings
   const existingContact = await JsonDatabase.readData<ContactSettingsData | null>('contact', null);
-  if (!existingContact || !existingContact.email) {
+  if (forceDiskWrite || !existingContact || !existingContact.email) {
     const defaultContact: ContactSettingsData = {
       email: 'admissions@scholarbridge.org',
       phone: '+49 89 289 01',
@@ -215,14 +210,12 @@ export async function initializeJsonDatabase(): Promise<void> {
   }
 
   // 9. Contact Messages
-  const existingMessages = await JsonDatabase.findAll('contactMessages');
-  if (!existingMessages) {
+  if (forceDiskWrite || !(await JsonDatabase.findAll('contactMessages'))) {
     await JsonDatabase.writeData('contactMessages', []);
   }
 
   // 10. Social Media
-  const existingSocial = await JsonDatabase.findAll<SocialMediaRecord>('socialMedia');
-  if (existingSocial.length === 0) {
+  if (forceDiskWrite || (await JsonDatabase.findAll<SocialMediaRecord>('socialMedia')).length === 0) {
     const defaultSocial: SocialMediaRecord[] = [
       {
         id: 'soc-1',
@@ -277,14 +270,13 @@ export async function initializeJsonDatabase(): Promise<void> {
   }
 
   // 11. Media Library
-  const existingMedia = await JsonDatabase.findAll('media');
-  if (!existingMedia) {
+  if (forceDiskWrite || !(await JsonDatabase.findAll('media'))) {
     await JsonDatabase.writeData('media', []);
   }
 
   // 12. Site Settings
   const existingSettings = await JsonDatabase.readData<SettingsData | null>('settings', null);
-  if (!existingSettings || !existingSettings.siteName) {
+  if (forceDiskWrite || !existingSettings || !existingSettings.siteName) {
     const defaultSettings: SettingsData = {
       siteName: 'ScholarBridge',
       siteUrl: process.env.CLIENT_URL || 'http://localhost:3000',
@@ -348,7 +340,7 @@ export async function initializeJsonDatabase(): Promise<void> {
 
   // 13. SEO Global Settings
   const existingSeo = await JsonDatabase.readData<SeoSettingsData | null>('seo', null);
-  if (!existingSeo || !existingSeo.siteTitle) {
+  if (forceDiskWrite || !existingSeo || !existingSeo.siteTitle) {
     const defaultSeo: SeoSettingsData = {
       siteTitle: 'ScholarBridge - International Scholarships, Grants & Study Abroad',
       siteDescription: 'Search and apply for fully funded international scholarships, government grants, DAAD, Chevening, MEXT, and university fellowships worldwide.',
@@ -377,8 +369,7 @@ export async function initializeJsonDatabase(): Promise<void> {
   }
 
   // 14. Advertisements & Google AdSense configuration
-  const existingAds = await JsonDatabase.findAll<AdvertisementRecord>('advertisements');
-  if (existingAds.length === 0) {
+  if (forceDiskWrite || (await JsonDatabase.findAll<AdvertisementRecord>('advertisements')).length === 0) {
     const defaultAds: AdvertisementRecord[] = [
       {
         id: 'ad-top-banner',
@@ -427,8 +418,7 @@ export async function initializeJsonDatabase(): Promise<void> {
   }
 
   // 15. Navigation Menu
-  const existingNav = await JsonDatabase.findAll<NavigationRecord>('navigation');
-  if (existingNav.length === 0) {
+  if (forceDiskWrite || (await JsonDatabase.findAll<NavigationRecord>('navigation')).length === 0) {
     const defaultNav: NavigationRecord[] = [
       { id: 'nav-1', label: 'Explore Scholarships', url: '/scholarships', position: 1, enabled: true, target: '_self', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
       { id: 'nav-2', label: 'By Country', url: '/countries', position: 2, enabled: true, target: '_self', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
@@ -441,20 +431,17 @@ export async function initializeJsonDatabase(): Promise<void> {
   }
 
   // 16. Pages
-  const existingPages = await JsonDatabase.findAll('pages');
-  if (existingPages.length === 0) {
+  if (forceDiskWrite || (await JsonDatabase.findAll('pages')).length === 0) {
     await JsonDatabase.writeData('pages', []);
   }
 
   // 17. Audit Logs
-  const existingLogs = await JsonDatabase.findAll('auditLogs');
-  if (!existingLogs) {
+  if (forceDiskWrite || !(await JsonDatabase.findAll('auditLogs'))) {
     await JsonDatabase.writeData('auditLogs', []);
   }
 
   // 18. Subscribers
-  const existingSubscribers = await JsonDatabase.findAll('subscribers');
-  if (existingSubscribers.length === 0) {
+  if (forceDiskWrite || (await JsonDatabase.findAll('subscribers')).length === 0) {
     await JsonDatabase.writeData('subscribers', [
       { id: 'sub-1', email: 'alex.scholar@gmail.com', subscribedAt: '2026-08-01', active: true },
       { id: 'sub-2', email: 'elena.student@outlook.com', subscribedAt: '2026-08-05', active: true },

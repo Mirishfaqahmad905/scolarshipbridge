@@ -1,0 +1,240 @@
+[
+  {
+    "slug": "university-of-oxford",
+    "name": "University of Oxford",
+    "country": "United Kingdom",
+    "city": "Oxford",
+    "worldRank": 1,
+    "logo": "https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=200&q=80",
+    "bannerImage": "https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1200&q=80",
+    "website": "https://www.ox.ac.uk",
+    "description": "The oldest university in the English-speaking world, Oxford is a unique and historic institution offering world-leading research, collegiate life, and prestigious Clarendon and Rhodes scholarships.",
+    "acceptanceRate": "14.5%",
+    "internationalStudentsPercent": "45%",
+    "popularMajors": [
+      "Philosophy, Politics & Economics (PPE)",
+      "Computer Science",
+      "Medicine",
+      "Law",
+      "History",
+      "Biochemistry"
+    ]
+  },
+  {
+    "slug": "university-of-cambridge",
+    "name": "University of Cambridge",
+    "country": "United Kingdom",
+    "city": "Cambridge",
+    "worldRank": 2,
+    "logo": "https://images.unsplash.com/photo-1564981797816-1043664bf78d?auto=format&fit=crop&w=200&q=80",
+    "bannerImage": "https://images.unsplash.com/photo-1564981797816-1043664bf78d?auto=format&fit=crop&w=1200&q=80",
+    "website": "https://www.cam.ac.uk",
+    "description": "Founded in 1209, Cambridge is a global academic powerhouse with over 120 Nobel Laureates and home to the renowned Gates Cambridge Trust providing 100% full postgraduate scholarships.",
+    "acceptanceRate": "16.0%",
+    "internationalStudentsPercent": "40%",
+    "popularMajors": [
+      "Natural Sciences",
+      "Engineering",
+      "Mathematics",
+      "Computer Science",
+      "Economics",
+      "Medicine"
+    ]
+  },
+  {
+    "slug": "harvard-university",
+    "name": "Harvard University",
+    "country": "United States",
+    "city": "Cambridge, MA",
+    "worldRank": 4,
+    "logo": "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=200&q=80",
+    "bannerImage": "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=80",
+    "website": "https://www.harvard.edu",
+    "description": "The oldest institution of higher learning in the US, Harvard provides need-blind admissions for international undergraduates and guaranteed fully funded PhD fellowships with full tuition and livable stipends.",
+    "acceptanceRate": "3.4%",
+    "internationalStudentsPercent": "27%",
+    "popularMajors": [
+      "Economics",
+      "Computer Science",
+      "Government",
+      "Applied Mathematics",
+      "Molecular & Cellular Biology"
+    ]
+  },
+  {
+    "slug": "technical-university-of-munich",
+    "name": "Technical University of Munich (TUM)",
+    "country": "Germany",
+    "city": "Munich",
+    "worldRank": 28,
+    "logo": "https://images.unsplash.com/photo-1599946347371-68eb71b16afc?auto=format&fit=crop&w=200&q=80",
+    "bannerImage": "https://images.unsplash.com/photo-1599946347371-68eb71b16afc?auto=format&fit=crop&w=1200&q=80",
+    "website": "https://www.tum.de/en",
+    "description": "TUM is Germany’s premier university of excellence, known as the \"Entrepreneurial University\" with close industry ties to BMW, Siemens, and Google, offering top STEM programs in English.",
+    "acceptanceRate": "25%",
+    "internationalStudentsPercent": "44%",
+    "popularMajors": [
+      "Informatics & Data Engineering",
+      "Mechanical & Aerospace Engineering",
+      "Robotics & AI",
+      "Management & Technology"
+    ]
+  },
+  {
+    "slug": "university-of-melbourne",
+    "name": "University of Melbourne",
+    "country": "Australia",
+    "city": "Melbourne",
+    "worldRank": 13,
+    "logo": "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?auto=format&fit=crop&w=200&q=80",
+    "bannerImage": "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?auto=format&fit=crop&w=1200&q=80",
+    "website": "https://www.unimelb.edu.au",
+    "description": "Australia’s leading research university, Melbourne offers over 600 Melbourne Graduate Research Scholarships annually with 100% tuition waivers and AUD $37,000 yearly living allowances.",
+    "acceptanceRate": "70%",
+    "internationalStudentsPercent": "48%",
+    "popularMajors": [
+      "Biomedicine",
+      "Commerce",
+      "Computer Science",
+      "Civil Engineering",
+      "Law",
+      "Psychology"
+    ]
+  },
+  {
+    "slug": "university-of-toronto",
+    "name": "University of Toronto",
+    "country": "Canada",
+    "city": "Toronto, ON",
+    "worldRank": 21,
+    "logo": "https://images.unsplash.com/photo-1517935703635-2717090c2210?auto=format&fit=crop&w=200&q=80",
+    "bannerImage": "https://images.unsplash.com/photo-1517935703635-2717090c2210?auto=format&fit=crop&w=1200&q=80",
+    "website": "https://www.utoronto.ca",
+    "description": "Canada’s flagship university, U of T is a global leader in artificial intelligence (birthplace of deep learning), offering the Lester B. Pearson International Scholarship for undergraduates.",
+    "acceptanceRate": "43%",
+    "internationalStudentsPercent": "30%",
+    "popularMajors": [
+      "Computer Science",
+      "Commerce & Rotman Management",
+      "Life Sciences",
+      "Engineering",
+      "Architecture"
+    ]
+  },
+  {
+    "slug": "university-of-tokyo",
+    "name": "University of Tokyo (Todai)",
+    "country": "Japan",
+    "city": "Tokyo",
+    "worldRank": 28,
+    "logo": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=200&q=80",
+    "bannerImage": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1200&q=80",
+    "website": "https://www.u-tokyo.ac.jp/en",
+    "description": "Japan’s premier national university, UTokyo is Asia’s highest-ranking institution for physics, engineering, and oriental studies, with direct MEXT University Recommendation scholarships.",
+    "acceptanceRate": "30%",
+    "internationalStudentsPercent": "18%",
+    "popularMajors": [
+      "Precision Engineering",
+      "Materials Science",
+      "Information Science",
+      "Public Policy",
+      "Global Humanities"
+    ]
+  },
+  {
+    "slug": "seoul-national-university",
+    "name": "Seoul National University (SNU)",
+    "country": "South Korea",
+    "city": "Seoul",
+    "worldRank": 41,
+    "logo": "https://images.unsplash.com/photo-1538485399081-7191377e8241?auto=format&fit=crop&w=200&q=80",
+    "bannerImage": "https://images.unsplash.com/photo-1538485399081-7191377e8241?auto=format&fit=crop&w=1200&q=80",
+    "website": "https://en.snu.ac.kr",
+    "description": "The pinnacle of the Korean \"SKY\" universities, SNU offers SNU Global Hope and GKS scholarships, world-class semiconductor labs, and vibrant academic research in the heart of Seoul.",
+    "acceptanceRate": "15%",
+    "internationalStudentsPercent": "14%",
+    "popularMajors": [
+      "Electrical & Computer Engineering",
+      "Business Administration",
+      "Chemical Engineering",
+      "International Studies"
+    ]
+  },
+  {
+    "slug": "tu-delft",
+    "name": "Delft University of Technology (TU Delft)",
+    "country": "Netherlands",
+    "city": "Delft",
+    "worldRank": 47,
+    "logo": "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?auto=format&fit=crop&w=200&q=80",
+    "bannerImage": "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?auto=format&fit=crop&w=1200&q=80",
+    "website": "https://www.tudelft.nl/en",
+    "description": "TU Delft is Europe’s top technical university for civil engineering, architecture, and aerospace, offering Justus & Louise van Effen Excellence Full Scholarships.",
+    "acceptanceRate": "35%",
+    "internationalStudentsPercent": "30%",
+    "popularMajors": [
+      "Aerospace Engineering",
+      "Architecture & Built Environment",
+      "Quantum Computing",
+      "Sustainable Energy"
+    ]
+  },
+  {
+    "slug": "politecnico-di-milano",
+    "name": "Politecnico di Milano",
+    "country": "Italy",
+    "city": "Milan",
+    "worldRank": 111,
+    "logo": "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=200&q=80",
+    "bannerImage": "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1200&q=80",
+    "website": "https://www.polimi.it/en",
+    "description": "Ranked top 10 globally for Art & Design and Civil & Mechanical Engineering, Polimi offers Merit-based Platinum, Gold, and Silver full tuition scholarships + cash stipends.",
+    "acceptanceRate": "28%",
+    "internationalStudentsPercent": "25%",
+    "popularMajors": [
+      "Architecture",
+      "Industrial Design",
+      "Computer Science & Engineering",
+      "Management Engineering"
+    ]
+  },
+  {
+    "slug": "tsinghua-university",
+    "name": "Tsinghua University",
+    "country": "China",
+    "city": "Beijing",
+    "worldRank": 12,
+    "logo": "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=200&q=80",
+    "bannerImage": "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=1200&q=80",
+    "website": "https://www.tsinghua.edu.cn/en",
+    "description": "Often called China’s MIT, Tsinghua is the prestigious home of Schwarzman Scholars and CSC Government full scholarships for global masters and doctoral leaders.",
+    "acceptanceRate": "9.5%",
+    "internationalStudentsPercent": "16%",
+    "popularMajors": [
+      "Global Affairs & Schwarzman",
+      "Artificial Intelligence",
+      "Civil & Environmental Engineering",
+      "Materials Science"
+    ]
+  },
+  {
+    "slug": "sorbonne-university",
+    "name": "Sorbonne University",
+    "country": "France",
+    "city": "Paris",
+    "worldRank": 59,
+    "logo": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=200&q=80",
+    "bannerImage": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=80",
+    "website": "https://www.sorbonne-universite.fr/en",
+    "description": "Located in the historic Latin Quarter of Paris, Sorbonne is a world powerhouse for mathematics, oceanography, philosophy, and medical research with Eiffel Excellence scholars.",
+    "acceptanceRate": "22%",
+    "internationalStudentsPercent": "21%",
+    "popularMajors": [
+      "Pure & Applied Mathematics",
+      "Molecular Biology",
+      "Philosophy",
+      "Physics",
+      "History of Art"
+    ]
+  }
+]

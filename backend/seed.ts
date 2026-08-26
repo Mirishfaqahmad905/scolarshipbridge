@@ -3,7 +3,7 @@ import { initializeJsonDatabase } from './services/initData';
 async function runSeed() {
   console.log('🌱 [Seed] Starting ScholarBridge JSON database seed...');
   try {
-    await initializeJsonDatabase();
+    await initializeJsonDatabase(true);
     console.log('✅ [Seed] Database seeded successfully into backend/data/');
     process.exit(0);
   } catch (err) {

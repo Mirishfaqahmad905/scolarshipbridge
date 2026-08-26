@@ -1,0 +1,62 @@
+[
+  {
+    "id": "nav-1",
+    "label": "Explore Scholarships",
+    "url": "/scholarships",
+    "position": 1,
+    "enabled": true,
+    "target": "_self",
+    "createdAt": "2026-08-26T06:09:41.952Z",
+    "updatedAt": "2026-08-26T06:09:41.952Z"
+  },
+  {
+    "id": "nav-2",
+    "label": "By Country",
+    "url": "/countries",
+    "position": 2,
+    "enabled": true,
+    "target": "_self",
+    "createdAt": "2026-08-26T06:09:41.952Z",
+    "updatedAt": "2026-08-26T06:09:41.952Z"
+  },
+  {
+    "id": "nav-3",
+    "label": "Top Universities",
+    "url": "/universities",
+    "position": 3,
+    "enabled": true,
+    "target": "_self",
+    "createdAt": "2026-08-26T06:09:41.952Z",
+    "updatedAt": "2026-08-26T06:09:41.952Z"
+  },
+  {
+    "id": "nav-4",
+    "label": "Application Guides",
+    "url": "/news",
+    "position": 4,
+    "enabled": true,
+    "target": "_self",
+    "createdAt": "2026-08-26T06:09:41.952Z",
+    "updatedAt": "2026-08-26T06:09:41.952Z"
+  },
+  {
+    "id": "nav-5",
+    "label": "Deadline Calendar",
+    "url": "/calendar",
+    "position": 5,
+    "enabled": true,
+    "target": "_self",
+    "createdAt": "2026-08-26T06:09:41.952Z",
+    "updatedAt": "2026-08-26T06:09:41.952Z"
+  },
+  {
+    "id": "nav-6",
+    "label": "About Us",
+    "url": "/about",
+    "position": 6,
+    "enabled": true,
+    "target": "_self",
+    "createdAt": "2026-08-26T06:09:41.952Z",
+    "updatedAt": "2026-08-26T06:09:41.952Z"
+  }
+]
