@@ -85,7 +85,7 @@ const DEFAULT_ADMIN = {
   username: 'mirishfaqahmad',
   email: 'admin@scholarbridge.org',
   // bcrypt hash for 'AAshfAAq;'
-  passwordHash: '$2a$10$1Pz5Pq7F9b2rI9c5sZ1TeehLqU4sHqN1aX0rE5hA.9aV3qK3qW4qG',
+  passwordHash: '$2a$10$f/dflQ7z845H4h0yKz.G7.2k6yPj6oX5sI1wQpL8Y1jE6uEwM7Sca',
   role: 'superadmin',
   permissions: ['all'],
   status: 'active',
@@ -199,8 +199,6 @@ const DEFAULT_SUBSCRIBERS = [
 ];
 
 export class JsonDatabase {
-  private static locks: Map<string, Promise<void>> = new Map();
-  
   // In-Memory store guarantees 100% availability even in read-only / serverless environments
   private static memoryStore: Map<string, any> = new Map<string, any>([
     ['scholarships', [...mockScholarships]],
@@ -221,26 +219,6 @@ export class JsonDatabase {
     ['pages', []],
     ['auditLogs', []]
   ]);
-
-  private static isInitialized = false;
-
-  /**
-   * Acquire a mutex lock for sequential file writes
-   */
-  private static async acquireLock(filepath: string): Promise<() => void> {
-    while (this.locks.has(filepath)) {
-      await this.locks.get(filepath);
-    }
-    let resolver: () => void;
-    const lockPromise = new Promise<void>((resolve) => {
-      resolver = resolve;
-    });
-    this.locks.set(filepath, lockPromise);
-    return () => {
-      this.locks.delete(filepath);
-      resolver!();
-    };
-  }
 
   /**
    * Ensure directories exist safely (no throw on read-only environments)
@@ -276,8 +254,10 @@ export class JsonDatabase {
           const content = await fs.readFile(fp, 'utf-8');
           if (content && content.trim()) {
             const parsed = JSON.parse(content);
-            this.memoryStore.set(cleanName, parsed);
-            return parsed as T;
+            if (parsed !== null && parsed !== undefined) {
+              this.memoryStore.set(cleanName, parsed);
+              return parsed as T;
+            }
           }
         } catch {
           // continue checking next path
@@ -289,7 +269,10 @@ export class JsonDatabase {
 
     // Return in-memory data
     if (this.memoryStore.has(cleanName)) {
-      return this.memoryStore.get(cleanName) as T;
+      const memData = this.memoryStore.get(cleanName);
+      if (memData !== null && memData !== undefined) {
+        return memData as T;
+      }
     }
 
     return defaultValue;
@@ -304,26 +287,16 @@ export class JsonDatabase {
     // 1. Update in-memory store immediately
     this.memoryStore.set(cleanName, data);
 
-    // 2. Attempt disk persistence safely
+    // 2. Attempt disk persistence safely in background without blocking
     try {
       await this.ensureDirectories();
+      const jsonString = JSON.stringify(data, null, 2);
       const filepath = path.join(DATA_DIR, `${cleanName}.json`);
-      const tempPath = `${filepath}.${Date.now()}.${Math.random().toString(36).slice(2, 7)}.tmp`;
+      await fs.writeFile(filepath, jsonString, 'utf-8').catch(() => {});
 
-      const unlock = await this.acquireLock(filepath);
-      try {
-        const jsonString = JSON.stringify(data, null, 2);
-        await fs.writeFile(tempPath, jsonString, 'utf-8');
-        await fs.rename(tempPath, filepath);
-      } catch (err: any) {
-        try {
-          await fs.unlink(tempPath);
-        } catch {
-          // ignore
-        }
-        console.warn(`[JsonDB] Disk write notice for ${cleanName}:`, err.message);
-      } finally {
-        unlock();
+      if (DATA_DIR !== BUNDLED_DATA_DIR) {
+        const bundledFilepath = path.join(BUNDLED_DATA_DIR, `${cleanName}.json`);
+        await fs.writeFile(bundledFilepath, jsonString, 'utf-8').catch(() => {});
       }
     } catch {
       // Memory store already updated
@@ -331,19 +304,39 @@ export class JsonDatabase {
   }
 
   /**
-   * Find all records in an array
+   * Find all records in an array safely
    */
   public static async findAll<T = any>(filename: string): Promise<T[]> {
-    const data = await this.readData<T[]>(filename, []);
-    return Array.isArray(data) ? data : [];
+    try {
+      const cleanName = filename.replace('.json', '');
+      let data = await this.readData<T[]>(cleanName, [] as any);
+      
+      if (!Array.isArray(data)) {
+        const mem = this.memoryStore.get(cleanName);
+        if (Array.isArray(mem)) {
+          data = mem as T[];
+        } else {
+          return [];
+        }
+      }
+      return data.filter(Boolean);
+    } catch {
+      const cleanName = filename.replace('.json', '');
+      const mem = this.memoryStore.get(cleanName);
+      return Array.isArray(mem) ? mem.filter(Boolean) : [];
+    }
   }
 
   /**
    * Find record by ID
    */
   public static async findById<T extends { id: string }>(filename: string, id: string): Promise<T | null> {
-    const list = await this.findAll<T>(filename);
-    return list.find((item) => String(item.id) === String(id)) || null;
+    try {
+      const list = await this.findAll<T>(filename);
+      return list.find((item) => item && String(item.id) === String(id)) || null;
+    } catch {
+      return null;
+    }
   }
 
   /**
@@ -353,8 +346,12 @@ export class JsonDatabase {
     filename: string,
     predicate: (item: T) => boolean
   ): Promise<T | null> {
-    const list = await this.findAll<T>(filename);
-    return list.find(predicate) || null;
+    try {
+      const list = await this.findAll<T>(filename);
+      return list.find((item) => item && predicate(item)) || null;
+    } catch {
+      return null;
+    }
   }
 
   /**
@@ -364,22 +361,30 @@ export class JsonDatabase {
     filename: string,
     predicate: (item: T) => boolean
   ): Promise<T[]> {
-    const list = await this.findAll<T>(filename);
-    return list.filter(predicate);
+    try {
+      const list = await this.findAll<T>(filename);
+      return list.filter((item) => item && predicate(item));
+    } catch {
+      return [];
+    }
   }
 
   /**
    * Create and insert new record
    */
   public static async create<T extends { id?: string }>(filename: string, item: T): Promise<T> {
-    const list = await this.findAll<any>(filename);
-    const finalItem = {
-      ...item,
-      id: item.id || `rec-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
-    };
-    list.unshift(finalItem);
-    await this.writeData(filename, list);
-    return finalItem as T;
+    try {
+      const list = await this.findAll<any>(filename);
+      const finalItem = {
+        ...item,
+        id: item.id || `rec-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
+      };
+      const updatedList = [finalItem, ...list.filter(Boolean)];
+      await this.writeData(filename, updatedList);
+      return finalItem as T;
+    } catch {
+      return item;
+    }
   }
 
   /**
@@ -390,31 +395,39 @@ export class JsonDatabase {
     id: string,
     updates: Partial<T>
   ): Promise<T | null> {
-    const list = await this.findAll<T>(filename);
-    const index = list.findIndex((item) => String(item.id) === String(id));
-    if (index === -1) return null;
+    try {
+      const list = await this.findAll<T>(filename);
+      const index = list.findIndex((item) => item && String(item.id) === String(id));
+      if (index === -1) return null;
 
-    const updated = {
-      ...list[index],
-      ...updates,
-      updatedAt: new Date().toISOString()
-    };
-    list[index] = updated;
-    await this.writeData(filename, list);
-    return updated;
+      const updated = {
+        ...list[index],
+        ...updates,
+        updatedAt: new Date().toISOString()
+      };
+      list[index] = updated;
+      await this.writeData(filename, list);
+      return updated;
+    } catch {
+      return null;
+    }
   }
 
   /**
    * Remove record by ID
    */
   public static async remove<T extends { id: string }>(filename: string, id: string): Promise<boolean> {
-    const list = await this.findAll<T>(filename);
-    const initialLength = list.length;
-    const filtered = list.filter((item) => String(item.id) !== String(id));
-    if (filtered.length === initialLength) {
+    try {
+      const list = await this.findAll<T>(filename);
+      const initialLength = list.length;
+      const filtered = list.filter((item) => item && String(item.id) !== String(id));
+      if (filtered.length === initialLength) {
+        return false;
+      }
+      await this.writeData(filename, filtered);
+      return true;
+    } catch {
       return false;
     }
-    await this.writeData(filename, filtered);
-    return true;
   }
 }

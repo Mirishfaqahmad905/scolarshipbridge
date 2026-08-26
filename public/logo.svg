@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 64" width="280" height="64">
+  <defs>
+    <linearGradient id="logoEmblemGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="50%" stop-color="#0d9488" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="logoGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#fbbf24" />
+    </linearGradient>
+  </defs>
+
+  <!-- Emblem Icon -->
+  <g transform="translate(6, 6)">
+    <rect x="0" y="0" width="52" height="52" rx="12" fill="#0f172a" />
+    <rect x="1" y="1" width="50" height="50" rx="11" fill="none" stroke="url(#logoEmblemGrad)" stroke-width="1.5" stroke-opacity="0.8" />
+    <!-- Bridge -->
+    <path d="M 10 38 Q 26 22 42 38" fill="none" stroke="url(#logoEmblemGrad)" stroke-width="3.5" stroke-linecap="round" />
+    <!-- Mortarboard -->
+    <polygon points="26,12 42,19 26,26 10,19" fill="url(#logoGoldGrad)" />
+    <path d="M 17 22 L 17 28 C 17 32 35 32 35 28 L 35 22" fill="#d97706" />
+    <path d="M 37 21 L 40 29" stroke="#fef08a" stroke-width="1.5" stroke-linecap="round" />
+    <circle cx="40" cy="30" r="1.5" fill="#fef08a" />
+  </g>
+
+  <!-- Typography -->
+  <text x="68" y="34" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="20" fill="#0f172a" letter-spacing="-0.5">
+    Scholar<tspan fill="#059669">Bridge</tspan>
+  </text>
+  <text x="69" y="47" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="9" fill="#64748b" letter-spacing="1.2">
+    GLOBAL SCHOLARSHIP PORTAL
+  </text>
+</svg>

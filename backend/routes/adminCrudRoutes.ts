@@ -36,16 +36,16 @@ adminCrudRouter.use(authenticateAdmin);
 adminCrudRouter.get('/dashboard', async (req: AuthRequest, res: Response) => {
   try {
     const [
-      scholarships,
-      posts,
-      universities,
-      countries,
-      categories,
-      media,
-      messages,
-      subscribers,
-      ads,
-      auditLogs
+      rawScholarships,
+      rawPosts,
+      rawUniversities,
+      rawCountries,
+      rawCategories,
+      rawMedia,
+      rawMessages,
+      rawSubscribers,
+      rawAds,
+      rawAuditLogs
     ] = await Promise.all([
       JsonDatabase.findAll<ScholarshipRecord>('scholarships'),
       JsonDatabase.findAll<PostRecord>('posts'),
@@ -59,16 +59,27 @@ adminCrudRouter.get('/dashboard', async (req: AuthRequest, res: Response) => {
       JsonDatabase.findAll<AuditLogRecord>('auditLogs')
     ]);
 
-    const publishedScholarships = scholarships.filter((s) => s.status === 'published').length;
-    const draftScholarships = scholarships.filter((s) => s.status === 'draft').length;
-    const scheduledScholarships = scholarships.filter((s) => s.status === 'scheduled').length;
-    const expiredScholarships = scholarships.filter((s) => s.status === 'expired').length;
+    const scholarships = Array.isArray(rawScholarships) ? rawScholarships.filter(Boolean) : [];
+    const posts = Array.isArray(rawPosts) ? rawPosts.filter(Boolean) : [];
+    const universities = Array.isArray(rawUniversities) ? rawUniversities.filter(Boolean) : [];
+    const countries = Array.isArray(rawCountries) ? rawCountries.filter(Boolean) : [];
+    const categories = Array.isArray(rawCategories) ? rawCategories.filter(Boolean) : [];
+    const media = Array.isArray(rawMedia) ? rawMedia.filter(Boolean) : [];
+    const messages = Array.isArray(rawMessages) ? rawMessages.filter(Boolean) : [];
+    const subscribers = Array.isArray(rawSubscribers) ? rawSubscribers.filter(Boolean) : [];
+    const ads = Array.isArray(rawAds) ? rawAds.filter(Boolean) : [];
+    const auditLogs = Array.isArray(rawAuditLogs) ? rawAuditLogs.filter(Boolean) : [];
 
-    const publishedPosts = posts.filter((p) => p.status === 'published').length;
-    const draftPosts = posts.filter((p) => p.status === 'draft').length;
+    const publishedScholarships = scholarships.filter((s) => s && s.status === 'published').length;
+    const draftScholarships = scholarships.filter((s) => s && s.status === 'draft').length;
+    const scheduledScholarships = scholarships.filter((s) => s && s.status === 'scheduled').length;
+    const expiredScholarships = scholarships.filter((s) => s && s.status === 'expired').length;
 
-    const activeAdvertisements = ads.filter((a) => a.status === 'active').length;
-    const unreadMessages = messages.filter((m) => m.status === 'new').length;
+    const publishedPosts = posts.filter((p) => p && p.status === 'published').length;
+    const draftPosts = posts.filter((p) => p && p.status === 'draft').length;
+
+    const activeAdvertisements = ads.filter((a) => a && a.status === 'active').length;
+    const unreadMessages = messages.filter((m) => m && m.status === 'new').length;
 
     res.json({
       success: true,
@@ -102,6 +113,7 @@ adminCrudRouter.get('/dashboard', async (req: AuthRequest, res: Response) => {
       }
     });
   } catch (err: any) {
+    console.error('[Admin API Error] /dashboard:', err);
     res.status(500).json({ success: false, message: err.message });
   }
 });

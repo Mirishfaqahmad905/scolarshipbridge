@@ -54,10 +54,10 @@ export const AdminDashboardHome: React.FC = () => {
         scholarshipApi.admin.listBackups()
       ]);
 
-      setRecentScholarships((scholarshipsRes?.data || []).slice(0, 5));
-      setRecentPosts(postsRes.slice(0, 4));
-      setRecentMessages(messagesRes.slice(0, 4));
-      setBackups(backupsRes.slice(0, 3));
+      setRecentScholarships(Array.isArray(scholarshipsRes?.data) ? scholarshipsRes.data.slice(0, 5) : Array.isArray(scholarshipsRes) ? scholarshipsRes.slice(0, 5) : []);
+      setRecentPosts(Array.isArray(postsRes) ? postsRes.slice(0, 4) : Array.isArray(postsRes?.data) ? postsRes.data.slice(0, 4) : []);
+      setRecentMessages(Array.isArray(messagesRes) ? messagesRes.slice(0, 4) : Array.isArray(messagesRes?.data) ? messagesRes.data.slice(0, 4) : []);
+      setBackups(Array.isArray(backupsRes) ? backupsRes.slice(0, 3) : Array.isArray(backupsRes?.data) ? backupsRes.data.slice(0, 3) : []);
     } catch (err) {
       addToast({
         type: 'error',

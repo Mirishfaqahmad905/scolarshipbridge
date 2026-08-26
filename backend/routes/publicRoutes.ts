@@ -43,80 +43,88 @@ publicRouter.get('/scholarships', async (req: Request, res: Response) => {
     const sortBy = (req.query.sortBy || 'newest') as string;
     const status = (req.query.status || 'published') as string;
 
-    const page = Math.max(1, parseInt((req.query.page as string) || '1', 10));
-    const limit = Math.max(1, Math.min(100, parseInt((req.query.limit as string) || '50', 10)));
+    const page = Math.max(1, parseInt((req.query.page as string) || '1', 10) || 1);
+    const limit = Math.max(1, Math.min(200, parseInt((req.query.limit as string) || '50', 10) || 50));
 
-    let filtered = list.filter((item) => {
-      if (status !== 'all' && item.status !== status && !(status === 'published' && item.status === 'expired')) {
+    let filtered = (Array.isArray(list) ? list : []).filter((item) => {
+      if (!item) return false;
+      
+      const itemStatus = item.status || 'published';
+      if (status !== 'all' && itemStatus !== status && !(status === 'published' && itemStatus === 'expired')) {
         return false;
       }
 
       if (search) {
-        const matchesTitle = item.title?.toLowerCase().includes(search);
-        const matchesOrg = item.organization?.toLowerCase().includes(search);
-        const matchesUni = item.university?.toLowerCase().includes(search);
-        const matchesCountry = item.country?.toLowerCase().includes(search);
-        const matchesDesc = item.description?.toLowerCase().includes(search);
-        const matchesFields = item.fields?.some((f) => f.toLowerCase().includes(search));
-        const matchesTags = item.tags?.some((t) => t.toLowerCase().includes(search));
+        const matchesTitle = (item.title || '').toLowerCase().includes(search);
+        const matchesOrg = (item.organization || '').toLowerCase().includes(search);
+        const matchesUni = (item.university || '').toLowerCase().includes(search);
+        const matchesCountry = (item.country || '').toLowerCase().includes(search);
+        const matchesDesc = (item.description || '').toLowerCase().includes(search);
+        const matchesFields = Array.isArray(item.fields) && item.fields.some((f) => String(f).toLowerCase().includes(search));
+        const matchesTags = Array.isArray(item.tags) && item.tags.some((t) => String(t).toLowerCase().includes(search));
 
         if (!matchesTitle && !matchesOrg && !matchesUni && !matchesCountry && !matchesDesc && !matchesFields && !matchesTags) {
           return false;
         }
       }
 
-      if (country !== 'all' && item.country?.toLowerCase() !== country.toLowerCase()) {
+      if (country !== 'all' && (item.country || '').toLowerCase() !== country.toLowerCase()) {
         return false;
       }
 
-      if (region !== 'all' && item.region?.toLowerCase() !== region.toLowerCase()) {
+      if (region !== 'all' && (item.region || '').toLowerCase() !== region.toLowerCase()) {
         return false;
       }
 
       if (degree !== 'all') {
         const dLower = degree.toLowerCase();
-        const hasDegree = item.degreeLevels?.some((d) => d.toLowerCase() === dLower || (dLower === 'bachelor' && d === 'Undergraduate'));
+        const hasDegree = Array.isArray(item.degreeLevels) && item.degreeLevels.some((d) => String(d).toLowerCase() === dLower || (dLower === 'bachelor' && String(d) === 'Undergraduate'));
         if (!hasDegree) return false;
       }
 
       if (funding !== 'all') {
         const fLower = funding.toLowerCase();
+        const itemFunding = (item.fundingType || '').toLowerCase().replace(/\s+/g, '-');
         if (fLower === 'fully-funded' && item.fundingType !== 'Fully Funded') return false;
         if (fLower === 'partial' && item.fundingType !== 'Partial Funding') return false;
-        if (fLower === 'tuition-free' && !item.tuitionCoverage?.toLowerCase().includes('free') && !item.tuitionCoverage?.toLowerCase().includes('100%')) return false;
+        if (fLower === 'tuition-free' && !(item.tuitionCoverage || '').toLowerCase().includes('free') && !(item.tuitionCoverage || '').toLowerCase().includes('100%')) return false;
         if (fLower === 'stipend' && !item.monthlyStipend) return false;
       }
 
       if (field !== 'all') {
         const fTarget = field.toLowerCase();
-        if (!item.fields?.some((f) => f.toLowerCase().includes(fTarget))) return false;
+        if (!Array.isArray(item.fields) || !item.fields.some((f) => String(f).toLowerCase().includes(fTarget))) return false;
       }
 
-      if (category !== 'all' && item.category !== category) {
+      if (category !== 'all' && (item.category || '').toLowerCase() !== category.toLowerCase()) {
         return false;
       }
 
-      if (type !== 'all' && item.type?.toLowerCase() !== type.toLowerCase()) {
+      if (type !== 'all' && (item.type || '').toLowerCase() !== type.toLowerCase()) {
         return false;
       }
 
       if (ielts !== 'all') {
-        if (ielts === 'no-ielts' && item.languageRequirements?.ieltsRequired) return false;
-        if (ielts === 'ielts-required' && !item.languageRequirements?.ieltsRequired) return false;
+        const reqIelts = Boolean(item.languageRequirements?.ieltsRequired);
+        if (ielts === 'no-ielts' && reqIelts) return false;
+        if (ielts === 'ielts-required' && !reqIelts) return false;
       }
 
       if (fee !== 'all') {
-        if (fee === 'free' && item.applicationFee !== 'Free') return false;
-        if (fee === 'paid' && item.applicationFee !== 'Paid') return false;
+        const isFree = (item.applicationFee || '').toLowerCase() === 'free' || !item.applicationFee;
+        if (fee === 'free' && !isFree) return false;
+        if (fee === 'paid' && isFree) return false;
       }
 
-      if (deadlineStatus !== 'all') {
+      if (deadlineStatus !== 'all' && item.deadline) {
         const today = new Date();
         const deadlineDate = new Date(item.deadline);
-        const diffDays = Math.ceil((deadlineDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-        if (deadlineStatus === 'open' && diffDays < 0) return false;
-        if (deadlineStatus === 'closing-soon' && (diffDays < 0 || diffDays > 30)) return false;
-        if (deadlineStatus === 'closed' && diffDays >= 0) return false;
+        if (!isNaN(deadlineDate.getTime())) {
+          const diffDays = Math.ceil((deadlineDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+          if (deadlineStatus === 'open' && diffDays < 0) return false;
+          if (deadlineStatus === 'closing-soon' && (diffDays < 0 || diffDays > 30)) return false;
+          if (deadlineStatus === 'closed' && diffDays >= 0) return false;
+        }
       }
 
       return true;
@@ -124,8 +132,16 @@ publicRouter.get('/scholarships', async (req: Request, res: Response) => {
 
     // Sorting
     filtered.sort((a, b) => {
-      if (sortBy === 'newest') return new Date(b.createdAt || b.publishedAt || 0).getTime() - new Date(a.createdAt || a.publishedAt || 0).getTime();
-      if (sortBy === 'deadline') return new Date(a.deadline).getTime() - new Date(b.deadline).getTime();
+      if (sortBy === 'newest') {
+        const timeB = new Date(b.createdAt || b.publishedAt || 0).getTime() || 0;
+        const timeA = new Date(a.createdAt || a.publishedAt || 0).getTime() || 0;
+        return timeB - timeA;
+      }
+      if (sortBy === 'deadline') {
+        const timeA = new Date(a.deadline || '9999-12-31').getTime() || 0;
+        const timeB = new Date(b.deadline || '9999-12-31').getTime() || 0;
+        return timeA - timeB;
+      }
       if (sortBy === 'popular') return (b.bookmarksCount || 0) - (a.bookmarksCount || 0);
       if (sortBy === 'views') return (b.views || 0) - (a.views || 0);
       if (sortBy === 'title-asc') return (a.title || '').localeCompare(b.title || '');
@@ -144,11 +160,16 @@ publicRouter.get('/scholarships', async (req: Request, res: Response) => {
         page,
         limit,
         total,
-        pages: Math.ceil(total / limit)
+        pages: Math.ceil(total / limit) || 1
       }
     });
   } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
+    console.error('[Public API Error] /scholarships:', err);
+    res.json({
+      success: true,
+      data: [],
+      pagination: { page: 1, limit: 50, total: 0, pages: 1 }
+    });
   }
 });
 

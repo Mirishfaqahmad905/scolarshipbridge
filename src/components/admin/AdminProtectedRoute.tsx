@@ -14,12 +14,12 @@ export const AdminProtectedRoute: React.FC<AdminProtectedRouteProps> = ({
   const location = useLocation();
   const [authState, setAuthState] = useState<'checking' | 'authenticated' | 'unauthenticated'>(() => {
     const token = localStorage.getItem('scholarbridge_admin_token');
-    const user = localStorage.getItem('scholarshipbride_admin_user');
+    const user = localStorage.getItem('scholarbridge_admin_user') || localStorage.getItem('scholarshipbride_admin_user');
     return token && user ? 'authenticated' : 'checking';
   });
   const [userRole, setUserRole] = useState<string | null>(() => {
     try {
-      const user = localStorage.getItem('scholarshipbride_admin_user');
+      const user = localStorage.getItem('scholarbridge_admin_user') || localStorage.getItem('scholarshipbride_admin_user');
       return user ? JSON.parse(user).role : null;
     } catch {
       return null;
@@ -43,7 +43,7 @@ export const AdminProtectedRoute: React.FC<AdminProtectedRouteProps> = ({
             setUserRole(user.role || 'superadmin');
             setAuthState('authenticated');
           } else {
-            const cached = localStorage.getItem('scholarshipbride_admin_user');
+            const cached = localStorage.getItem('scholarbridge_admin_user') || localStorage.getItem('scholarshipbride_admin_user');
             if (cached) {
               const parsed = JSON.parse(cached);
               setUserRole(parsed.role || 'superadmin');
@@ -58,6 +58,7 @@ export const AdminProtectedRoute: React.FC<AdminProtectedRouteProps> = ({
           // If 401/403, clear credentials
           if (err?.response?.status === 401 || err?.response?.status === 403) {
             localStorage.removeItem('scholarbridge_admin_token');
+            localStorage.removeItem('scholarbridge_admin_user');
             localStorage.removeItem('scholarshipbride_admin_user');
             setAuthState('unauthenticated');
           } else {

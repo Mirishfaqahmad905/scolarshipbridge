@@ -347,6 +347,7 @@ export const scholarshipApi = {
         }
         if (response.data && (response.data.user || response.data.data)) {
           const userObj = response.data.user || response.data.data;
+          localStorage.setItem('scholarbridge_admin_user', JSON.stringify(userObj));
           localStorage.setItem('scholarshipbride_admin_user', JSON.stringify(userObj));
         }
         return response.data;
@@ -377,6 +378,7 @@ export const scholarshipApi = {
           };
           const fallbackToken = `mock-jwt-${Date.now()}-superadmin`;
           localStorage.setItem('scholarbridge_admin_token', fallbackToken);
+          localStorage.setItem('scholarbridge_admin_user', JSON.stringify(fallbackAdmin));
           localStorage.setItem('scholarshipbride_admin_user', JSON.stringify(fallbackAdmin));
 
           return {
@@ -783,6 +785,7 @@ export const scholarshipApi = {
       const response = await apiClient.get('/admin/auth/me');
       const user = response.data.user || response.data.data;
       if (user) {
+        localStorage.setItem('scholarbridge_admin_user', JSON.stringify(user));
         localStorage.setItem('scholarshipbride_admin_user', JSON.stringify(user));
       }
       return user;

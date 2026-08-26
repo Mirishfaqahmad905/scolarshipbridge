@@ -20,7 +20,7 @@ export const AdminLoginPage: React.FC = () => {
 
   React.useEffect(() => {
     const token = localStorage.getItem('scholarbridge_admin_token');
-    const user = localStorage.getItem('scholarshipbride_admin_user');
+    const user = localStorage.getItem('scholarbridge_admin_user') || localStorage.getItem('scholarshipbride_admin_user');
     if (token && user) {
       navigate('/admin/dashboard', { replace: true });
     }
@@ -67,10 +67,10 @@ export const AdminLoginPage: React.FC = () => {
       <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
         {/* Brand Header */}
         <div className="text-center space-y-2">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-400 to-amber-500 text-slate-950 font-black text-2xl shadow-xl shadow-amber-500/10">
-            S
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-amber-400 text-slate-950 font-black text-2xl shadow-xl shadow-emerald-500/20">
+            SB
           </div>
-          <h2 className="text-2xl font-black text-white tracking-tight">ScholarshipBride</h2>
+          <h2 className="text-2xl font-black text-white tracking-tight">Scholar<span className="text-emerald-400">Bridge</span></h2>
           <p className="text-xs font-semibold uppercase tracking-widest text-slate-400">
             Secure Admin Control Center
           </p>

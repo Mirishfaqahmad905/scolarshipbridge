@@ -26,9 +26,11 @@ adminAuthRouter.post('/login', async (req: Request, res: Response) => {
     const cleanPassword = String(password).trim();
 
     let admins = await JsonDatabase.findAll<AdminUser>('admins');
-    let admin = admins.find(
-      (a) => a.username.toLowerCase() === cleanUsername || a.email.toLowerCase() === cleanUsername
-    );
+    let admin = Array.isArray(admins)
+      ? admins.find(
+          (a) => a && (String(a.username || '').toLowerCase() === cleanUsername || String(a.email || '').toLowerCase() === cleanUsername)
+        )
+      : null;
 
     // If master admin doesn't exist yet, seed it automatically
     if (!admin && (cleanUsername === 'mirishfaqahmad' || cleanUsername === 'admin@scholarbridge.org' || cleanUsername === 'admin')) {

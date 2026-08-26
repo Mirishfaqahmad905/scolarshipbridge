@@ -208,13 +208,13 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
             </button>
 
             <Link to="/admin/dashboard" className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-400 to-amber-500 text-slate-950 flex items-center justify-center font-black text-lg shadow-sm">
-                S
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-amber-400 text-slate-950 flex items-center justify-center font-black text-sm shadow-sm shadow-emerald-500/20">
+                SB
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center gap-2">
-                  <span className="font-black tracking-tight text-base text-white">ScholarshipBride</span>
-                  <span className="px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-amber-400/20 text-amber-300 rounded-md border border-amber-400/30">
+                  <span className="font-black tracking-tight text-base text-white">Scholar<span className="text-emerald-400">Bridge</span></span>
+                  <span className="px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-emerald-400/20 text-emerald-300 rounded-md border border-emerald-400/30">
                     Admin
                   </span>
                 </div>
@@ -294,7 +294,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
                   <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-200 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                     <div className="px-4 py-2 border-b border-slate-100">
                       <p className="text-xs font-bold text-slate-900">{currentUser?.username || 'Admin'}</p>
-                      <p className="text-xs text-slate-500 truncate">{currentUser?.email || 'admin@scholarshipbride.org'}</p>
+                      <p className="text-xs text-slate-500 truncate">{currentUser?.email || 'admin@scholarbridge.org'}</p>
                     </div>
 
                     <div className="py-1">
